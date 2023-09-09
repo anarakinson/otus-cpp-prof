@@ -1,5 +1,5 @@
 #include <iostream>
 
 int s() {
-    return 23134;
+    return 23;
 }
