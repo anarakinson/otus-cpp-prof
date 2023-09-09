@@ -6,9 +6,14 @@ on:
     branches:
     - main
     - feature/github_actions
-    paths:
-    - './01.CICD/**'
+    # paths:
+    # - './01.CICD/**'
   workflow_dispatch:
+
+
+defaults:
+  run:
+    working-directory: ./01.CICD/
 
 
 jobs:
