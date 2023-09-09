@@ -20,10 +20,10 @@ jobs:
         working-directory: ./01.CICD/
         run: |
              sudo apt-get update && sudo apt-get install cmake libboost-test-dev -y
-             cmake . -DPATCH_VERSION=${{ github.run_number }}
-             cmake --build .
-             cmake --build . --target test
-             cmake --build . --target package
+             cmake -B build -DPATCH_VERSION=${{ github.run_number }}
+             cmake --build build
+             cmake --build build --target test
+             cmake --build build --target package
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
