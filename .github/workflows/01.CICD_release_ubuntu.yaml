@@ -2,11 +2,11 @@ name: 'C++ CI'
 
 on:
   push:
+    paths:
+      - ./01.CICD/**
     branches:
       - main
       - feature/github_actions
-    paths:
-      - ./01.CICD/**
   workflow_dispatch:
 
 
