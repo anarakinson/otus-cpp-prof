@@ -1,0 +1,4 @@
+#pragma once 
+
+
+constexpr int project_version_patch = @PROJECT_VERSION_PATCH@;
