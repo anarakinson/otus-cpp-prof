@@ -11,44 +11,13 @@ find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 configure_file(include/version.h.in version.h)
 
 
+# sources
 add_executable(helloworld_cli main.cpp)
 add_executable(test_version test/test_version.cpp)
 add_library(helloworld source/lib.cpp)
 
 
-target_include_directories(
-    helloworld
-    PRIVATE 
-    ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_BINARY_DIR}
-)
-target_include_directories(
-    helloworld_cli
-    PRIVATE 
-    ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_BINARY_DIR}
-)
-target_include_directories(
-    test_version
-    PRIVATE 
-    ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_BINARY_DIR}
-)
-
-
-target_link_libraries(
-    helloworld_cli
-    PRIVATE 
-    helloworld
-)
-
-target_link_libraries(
-    test_version
-    ${Boost_LIBRARIES}
-    helloworld
-)
-
-
+# set target properties
 set_target_properties(
     helloworld_cli helloworld test_version 
     PROPERTIES
@@ -64,6 +33,42 @@ set_target_properties(
 )
 
 
+# set include directories
+target_include_directories(
+    helloworld
+    PRIVATE 
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_BINARY_DIR}
+)
+target_include_directories(
+    helloworld_cli
+    PRIVATE 
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_BINARY_DIR}
+)
+target_include_directories(
+    test_version
+    PRIVATE 
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_BINARY_DIR}
+)
+
+
+# link libraries
+target_link_libraries(
+    helloworld_cli
+    PRIVATE 
+    helloworld
+)
+
+target_link_libraries(
+    test_version
+    ${Boost_LIBRARIES}
+    helloworld
+)
+
+
+# set compile options
 if (MSVC)
     target_compile_options(helloworld_cli PRIVATE
         /W4
