@@ -5,9 +5,9 @@ on:
   push:
     branches:
       - main
-      - feature/github_actions
+      # - feature/github_actions
     paths:
-      - '01.CICD'
+      - ./01.CICD/
   workflow_dispatch:
 
 
