@@ -48,6 +48,8 @@ googletest
 # package managers directories
 vcpkg
 conan
+# webinar sources directory
+webinar_sources
 
 
 
