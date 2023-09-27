@@ -7,7 +7,7 @@ on:
       - main
       - feature/github_actions
     paths:
-      - '02.IP_filer/**'
+      - '02.IP_filter/**'
   workflow_dispatch:
 
 # defaults:
