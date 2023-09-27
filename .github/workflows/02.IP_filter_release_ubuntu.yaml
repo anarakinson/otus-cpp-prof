@@ -1,0 +1,35 @@
+name: 'C++ IP_filter'
+
+
+on:
+  push:
+    branches:
+      - main
+      - feature/github_actions
+    paths:
+      - '02.IP_filer/**'
+  workflow_dispatch:
+
+# defaults:
+#   run:
+#     working-directory: ./01.CICD/
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      ### Build ###
+      - name: Build 02.IP_filer
+        working-directory: ./02.IP_filer/
+        run: |
+             sudo apt-get update && sudo apt-get install cmake libboost-test-dev -y
+             cmake -B build -DPATCH_VERSION=${{ github.run_number }}
+             cmake --build build
+             cmake --build build --target test
+
+
