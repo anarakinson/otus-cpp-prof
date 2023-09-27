@@ -25,10 +25,10 @@ jobs:
 
       ### Build ###
       - name: Build 02.IP_filter
-        working-directory: ./02.IP_filer/
+        working-directory: ./02.IP_filter/
         run: |
              sudo apt-get update && sudo apt-get install cmake libboost-test-dev -y
-             cmake -B build -DPATCH_VERSION=${{ github.run_number }}
+             cmake -B build
              cmake --build build
              cmake --build build --target test
 
