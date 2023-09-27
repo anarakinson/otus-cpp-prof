@@ -24,7 +24,7 @@ jobs:
           submodules: true
 
       ### Build ###
-      - name: Build 02.IP_filer
+      - name: Build 02.IP_filter
         working-directory: ./02.IP_filer/
         run: |
              sudo apt-get update && sudo apt-get install cmake libboost-test-dev -y
