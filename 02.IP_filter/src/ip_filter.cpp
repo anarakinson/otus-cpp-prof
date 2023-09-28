@@ -33,6 +33,7 @@ std::vector<std::string> split(const std::string &str, char d)
 }
 
 
+// vector comparison function
 bool vector_cmp(const std::vector<std::string> &ip1, const std::vector<std::string> &ip2) {
 
     if (ip1 == ip2) {
@@ -52,6 +53,7 @@ bool vector_cmp(const std::vector<std::string> &ip1, const std::vector<std::stri
 }
 
 
+// function to sort all ip in vector
 void sort_ips(std::vector<std::vector<std::string>> &ip_pool) {
 
     std::sort(ip_pool.begin(), ip_pool.end(), vector_cmp);
@@ -59,7 +61,81 @@ void sort_ips(std::vector<std::vector<std::string>> &ip_pool) {
 }
 
 
+// function to filter specific byte by value
+std::vector<std::vector<std::string>> filter(
+    const std::vector<std::vector<std::string>> &ip_pool, 
+    int filter_byte_0 = -1, 
+    int filter_byte_1 = -1, 
+    int filter_byte_2 = -1, 
+    int filter_byte_3 = -1
+) {
 
+    std::vector<std::vector<std::string>> result{};
+    std::vector<std::string> ip_vec{};
+
+    int byte_counter = 0;    
+    std::vector<int> filter_bytes{filter_byte_0, filter_byte_1, filter_byte_2, filter_byte_3};
+    
+    for (std::vector<std::vector<std::string>>::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
+    {
+        byte_counter = 0;
+        ip_vec.clear();
+        for (std::vector<std::string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
+        {
+            if (filter_bytes[byte_counter] == -1 || filter_bytes[byte_counter] == stoi(*ip_part)) {
+                ip_vec.emplace_back(*ip_part);
+            }
+            byte_counter++;
+        }
+        if (ip_vec.size() == 4) {
+            result.emplace_back(ip_vec);
+        }
+    }
+
+    return result;
+
+}
+
+
+// function to filter any byte by value
+std::vector<std::vector<std::string>> filter_any(
+    const std::vector<std::vector<std::string>> &ip_pool, 
+    int filter_byte = -1
+) {
+
+    std::vector<std::vector<std::string>> result{};
+    
+    for (std::vector<std::vector<std::string>>::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
+    {
+        if (std::any_of(ip->cbegin(), ip->cend(), [filter_byte](std::string val){ return std::stoi(val) == filter_byte; })) {
+            result.emplace_back(*ip);
+        }
+    }
+
+    return result;
+
+}
+
+
+
+void print_results(const std::vector<std::vector<std::string>> &ip_pool) {
+    for (std::vector<std::vector<std::string>>::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
+    {
+        for (std::vector<std::string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
+        {
+            if (ip_part != ip->cbegin())
+            {
+                std::cout << ".";
+            }
+            std::cout << *ip_part;
+        }
+        std::cout << std::endl;
+    }
+
+}
+
+
+/*----------------------------------------------------------------------------*/
 int main(int argc, const char *argv[])
 {
     try
@@ -87,18 +163,23 @@ int main(int argc, const char *argv[])
         // TODO reverse lexicographically sort
         sort_ips(ip_pool);
 
-        for (std::vector<std::vector<std::string> >::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
-        {
-            for (std::vector<std::string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
-            {
-                if (ip_part != ip->cbegin())
-                {
-                    std::cout << ".";
-
-                }
-                std::cout << *ip_part;
-            }
-            std::cout << std::endl;
+        //* ------ print results ------ *//
+        // all ip
+        print_results(ip_pool);
+        // ip starts with '1.'
+        { 
+            auto ip_pool_filtered = filter(ip_pool, 1);
+            print_results(ip_pool_filtered);
+        }
+        // ip starts with '46.70.'
+        { 
+            auto ip_pool_filtered = filter(ip_pool, 46, 70);
+            print_results(ip_pool_filtered);
+        }
+        // ip contains 46
+        { 
+            auto ip_pool_filtered = filter_any(ip_pool, 46);
+            print_results(ip_pool_filtered);
         }
 
         // 222.173.235.246
