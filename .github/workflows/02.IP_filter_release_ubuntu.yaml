@@ -38,6 +38,7 @@ jobs:
              cmake -B build
              cmake --build build
              cmake --build build --target test
+             ls -la build/Debug
       ### Run tests ###
       - name: Run GTest
         working-directory: ./02.IP_filter/
