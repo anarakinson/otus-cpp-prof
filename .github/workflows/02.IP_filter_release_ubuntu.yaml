@@ -38,16 +38,15 @@ jobs:
              cmake -B build
              cmake --build build
              cmake --build build --target test
-             ls -la build
       ### Run tests ###
       - name: Run GTest
         working-directory: ./02.IP_filter/
         run: |
-             build/Debug/ip_filter_test.test
+             build/ip_filter_test.test
       ### Check hashsum ###
       - name: Check hashsum
         working-directory: ./02.IP_filter/
         run: |
-             build/Debug/ip_filter ip_filter.tsv | md5sum
+             build/ip_filter ip_filter.tsv | md5sum
 
 
