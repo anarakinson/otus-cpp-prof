@@ -60,5 +60,5 @@ endif()
 
 enable_testing()
 
-add_test(test ip_filter_test)
+add_test(ip_filter_test test)
 
