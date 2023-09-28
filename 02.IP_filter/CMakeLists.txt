@@ -66,7 +66,7 @@ add_test(ip_filter_test ip_filter_test)
 
 
 ### Deb pkg release ###
-set(PATCH_VERSION "1" CACHE INTERNAL "IP_Filter")
+set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 install(TARGETS ip_filter RUNTIME DESTINATION bin)
