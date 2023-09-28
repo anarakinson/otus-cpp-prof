@@ -42,7 +42,7 @@ jobs:
       - name: Run GTest
         working-directory: ./02.IP_filter/
         run: |
-             build/Debug/ip_filter_test
+             build/Debug/ip_filter_test.test
       ### Check hashsum ###
       - name: Check hashsum
         working-directory: ./02.IP_filter/

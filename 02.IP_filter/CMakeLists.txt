@@ -61,4 +61,3 @@ endif()
 enable_testing()
 
 add_test(ip_filter_test ip_filter_test)
-
