@@ -54,18 +54,18 @@ TEST(Test, Comparison_Test) {
 
 TEST(Test, Filter_Test) {
     // Arrange
-    std::vector<std::string> vec0{"1", "2", "3", "4"};   // 1.2.3.4
-    std::vector<std::string> vec1{"1", "2", "124", "125"};   // 2.2.3.4
-    std::vector<std::string> vec2{"1", "125", "3", "4"};  // 10.2.3.4
-    std::vector<std::string> vec3{"11", "2", "4", "4"}; // 1.2.3.125
+    std::vector<std::string> vec0{"1", "2", "3", "4"};       // 1.2.3.4
+    std::vector<std::string> vec1{"1", "2", "124", "125"};   // 1.2.124.125
+    std::vector<std::string> vec2{"1", "125", "3", "4"};     // 1.125.3.4
+    std::vector<std::string> vec3{"11", "2", "4", "4"};      // 11.2.3.125
 
     // Act
     std::vector<std::vector<std::string>> all_vecs{vec0, vec1, vec2, vec3};
     std::vector<std::vector<std::string>> reference1{vec0, vec1};      // started with '1.2'
     std::vector<std::vector<std::string>> reference2{vec1, vec2};      // contains '125.'
 
-    std::vector<std::vector<std::string>> filtered1 = filter(all_vecs, 1, 2);
-    std::vector<std::vector<std::string>> filtered2 = filter_any(all_vecs, 125);
+    std::vector<std::vector<std::string>> filtered1 = filter(all_vecs, 1, 2);     // started with '1.2'
+    std::vector<std::vector<std::string>> filtered2 = filter_any(all_vecs, 125);  // contains '125.'
 
     // Assert
     EXPECT_EQ(reference1, filtered1);
