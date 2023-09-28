@@ -35,9 +35,10 @@ jobs:
       - name: Build 02.IP_filter
         working-directory: ./02.IP_filter/
         run: |
-             cmake -B build
+             cmake -B build -DPATCH_VERSION=${{ github.run_number }}
              cmake --build build
-             cmake --build build --target test
+             cmake --build build --target ip_filter_test
+             cmake --build build --target package
       ### Run tests ###
       - name: Run GTest
         working-directory: ./02.IP_filter/

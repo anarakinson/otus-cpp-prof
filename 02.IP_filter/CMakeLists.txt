@@ -58,7 +58,26 @@ else ()
 endif()
 
 
+### Tests ###
 enable_testing()
 
 add_test(ip_filter_test ip_filter_test)
 
+
+
+### Deb pkg release ###
+set(PATCH_VERSION "1" CACHE INTERNAL "IP_Filter")
+set(PROJECT_VERSION 0.0.${PATCH_VERSION})
+
+install(TARGETS helloworld_cli RUNTIME DESTINATION bin)
+
+set(CPACK_GENERATOR DEB)
+
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+
+set(CPACK_PACKAGE_CONTACT example@example.com)
+
+
+include(CPack)
