@@ -31,5 +31,6 @@ jobs:
              cmake -B build
              cmake --build build
              cmake --build build --target test
+             cat build/Debug/ip_filter ip_filter.tsv | md5sum
 
 
