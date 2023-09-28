@@ -49,5 +49,18 @@ jobs:
         working-directory: ./02.IP_filter/
         run: |
              build/ip_filter ip_filter.tsv | md5sum
+      
+      ### Upload release ###
+      - name: Upload "02.IP_filter" Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./02.IP_filter/build/ip_filter-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: ip_filter-0.0.${{ github.run_number }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
+
 
 
