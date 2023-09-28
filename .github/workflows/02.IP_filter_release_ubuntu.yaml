@@ -31,6 +31,9 @@ jobs:
              cmake -B build
              cmake --build build
              cmake --build build --target test
+      - name: Check hashsum
+        working-directory: ./02.IP_filter/
+        run: |
              build/Debug/ip_filter ip_filter.tsv | md5sum
 
 
