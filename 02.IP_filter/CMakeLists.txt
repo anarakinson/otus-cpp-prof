@@ -69,7 +69,7 @@ add_test(ip_filter_test ip_filter_test)
 set(PATCH_VERSION "1" CACHE INTERNAL "IP_Filter")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
-install(TARGETS helloworld_cli RUNTIME DESTINATION bin)
+install(TARGETS ip_filter RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
