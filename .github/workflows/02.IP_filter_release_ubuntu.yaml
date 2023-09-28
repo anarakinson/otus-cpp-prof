@@ -27,10 +27,11 @@ jobs:
       - name: Build 02.IP_filter
         working-directory: ./02.IP_filter/
         run: |
-             sudo apt-get update && sudo apt-get install cmake libboost-test-dev -y
+             sudo apt-get update && sudo apt-get install cmake libgtest-dev -y 
              cmake -B build
              cmake --build build
              cmake --build build --target test
+      ### Check hashsum ###
       - name: Check hashsum
         working-directory: ./02.IP_filter/
         run: |

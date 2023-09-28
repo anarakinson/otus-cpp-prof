@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(ip_filter)
 
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+find_package(GTest CONFIG REQUIRED)
+
 
 # sources
 add_executable(ip_filter src/ip_filter.cpp)
@@ -17,12 +18,6 @@ set_target_properties(
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
-set_target_properties(
-    ip_filter_test 
-    PROPERTIES
-    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
-    INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR} 
-)
 
 # set include directories
 target_include_directories(
@@ -31,13 +26,18 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_BINARY_DIR}
 )
+target_include_directories(
+    ip_filter_test
+    PRIVATE 
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_BINARY_DIR}
+)
 
 # link libraries
 target_link_libraries(
-    ip_filter_test
-    ${Boost_LIBRARIES}
+    ip_filter_test 
+    PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main
 )
-
 
 
 # set compile options

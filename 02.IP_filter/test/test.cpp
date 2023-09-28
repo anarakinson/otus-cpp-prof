@@ -1,16 +1,23 @@
-#define BOOST_TEST_MODULE tests
+#include <ip_filter.h>
 
+#include <gtest/gtest.h>
 #include <iostream>
-#include <boost/test/unit_test.hpp>
+#include <algorithm>
 
 
+TEST(Test, Basic_Test) {
+    // Arrange
+    const int expected_zero_size = 0;
+    
+    std::vector<std::string> vec{};
 
-BOOST_AUTO_TEST_SUITE(tests)
+    // Assert
+    EXPECT_EQ(vec.size(), expected_zero_size);
 
-BOOST_AUTO_TEST_CASE(test_test) {
-    BOOST_CHECK(1 > 0);
+    vec.push_back("1");
+    const size_t expected_size = 1;
+
+    EXPECT_NE(vec.size(), expected_zero_size);
+    EXPECT_EQ(vec.size(), expected_size);
 }
-
-BOOST_AUTO_TEST_SUITE_END()
-
 //////////////
