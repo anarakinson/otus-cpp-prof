@@ -23,7 +23,7 @@ jobs:
         with:
           submodules: true
 
-      ### Build ###
+      ### Install requirements ###
       - name: Install requirements
         working-directory: ./02.IP_filter/
         run: |
@@ -31,13 +31,18 @@ jobs:
              cd /usr/src/googletest
              sudo cmake .
              sudo cmake --build . --target install
-
+      ### Build ###
       - name: Build 02.IP_filter
         working-directory: ./02.IP_filter/
         run: |
              cmake -B build
              cmake --build build
              cmake --build build --target test
+      ### Run tests ###
+      - name: Run GTest
+        working-directory: ./02.IP_filter/
+        run: |
+             build/Debug/ip_filter_test
       ### Check hashsum ###
       - name: Check hashsum
         working-directory: ./02.IP_filter/
