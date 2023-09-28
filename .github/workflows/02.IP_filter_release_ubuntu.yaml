@@ -24,10 +24,17 @@ jobs:
           submodules: true
 
       ### Build ###
-      - name: Build 02.IP_filter
+      - name: Install requirements
         working-directory: ./02.IP_filter/
         run: |
              sudo apt-get update && sudo apt-get install cmake libgtest-dev google-mock -y 
+             cd /usr/src/googletest
+             sudo cmake .
+             sudo cmake --build . --target install
+
+      - name: Build 02.IP_filter
+        working-directory: ./02.IP_filter/
+        run: |
              cmake -B build
              cmake --build build
              cmake --build build --target test

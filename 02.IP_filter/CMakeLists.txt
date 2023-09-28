@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.5)
 project(ip_filter)
 
 find_package(GTest CONFIG REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
 
 
 # sources
