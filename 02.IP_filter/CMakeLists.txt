@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.5)
 
-
+### set version
 set(PATCH_VERSION "1" CACHE INTERNAL "IP Filter")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
+### start project
 project(ip_filter VERSION ${PROJECT_VERSION})
+
 
 find_package(GTest CONFIG REQUIRED)
 
