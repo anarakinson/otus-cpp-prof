@@ -1,3 +1,28 @@
+/*
+
+1. функция печати должна быть одной шаблонной функцией, 
+разные варианты входов должны быть реализованы через механизм SFINAE
+
+2. вариант для целочисленного представления должен представлять собой одну функцию
+
+3. вариант для контейнеров std::list и std::vector должен представлять собой одну функцию
+
+4. не должно быть реализации типа "если не совпало с иными - значит это контейнер"
+
+5. найдите самый простой способ для печати `std::string` (но функция всё ещё должна быть шаблонной)
+
+6. опциональная реализация для `std::tuple` должна приводить к ошибке в случае отличающихся типов
+
+7. не должно быть ограничений на размер целочисленных типов (в байтах), 
+на размер контейнеров и кортежа (количество элементов)
+
+8. бинарный файл и пакет должны называться `print_ip` 
+
+
+*/
+
+
+
 #include <iostream> 
 #include <cstdint>
 #include <algorithm> 
@@ -25,23 +50,17 @@ void print_ip(T input) {
 
 }
 
-/*------ vector ------*/ 
+
+/*------ containers ------*/ 
 template <typename T>
-void print_ip(std::vector<T> vec) {
-
-    for (int i = 0; i < vec.size(); ++i) {
-        std::cout << vec[i];
-        if (i != vec.size() - 1) {
-            std::cout << ".";                
-        }
-    }
-    std::cout << std::endl;
-
-}
-
-/*------ list ------*/ 
+struct is_container { static const bool value=false; };
 template <typename T>
-void print_ip(std::list<T> lst) {
+struct is_container<std::vector<T>> { bool value=true; };
+template <typename T>
+struct is_container<std::list<T>> { bool value=true; };
+
+template <typename T>
+typename std::enable_if<is_container<T>::value, void>::type print_ip(const T &lst) {
 
     size_t counter = 0;
     for (auto x : lst) {
@@ -53,21 +72,25 @@ void print_ip(std::list<T> lst) {
 }
 
 /*------ string ------*/ 
-void print_ip(std::string str) {
+template <class T>
+struct is_string { static const bool value=false; };
+template <>
+struct is_string<std::string> { bool value=true; };
+
+template <typename T>
+typename std::enable_if<is_string<T>::value, void>::type print_ip(const T &str) {
     std::cout << str << std::endl;
 }
 
 /*------ tuple ------*/ 
-template <size_t I = 0, typename... Ts>
-typename std::enable_if<I == sizeof...(Ts) - 1, void>::type
-print_tuple(std::tuple<Ts...> tup) {
+template <size_t I = 0, typename... Args>
+typename std::enable_if<I == sizeof...(Args) - 1, void>::type print_tuple(std::tuple<Args...> tup) {
     // print the last element
     std::cout << std::get<I>(tup) << std::endl;
 }
- 
-template <size_t I = 0, typename... Ts>
-typename std::enable_if<(I < sizeof...(Ts) - 1), void>::type
-print_tuple(std::tuple<Ts...> tup) {
+
+template <size_t I = 0, typename... Args>
+typename std::enable_if<(I < sizeof...(Args) - 1), void>::type print_tuple(std::tuple<Args...> tup) {
     // Print element of tuple
     std::cout << std::get<I>(tup) << "."; 
     // Go to next element
