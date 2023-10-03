@@ -50,7 +50,7 @@ bool vector_cmp(const std::vector<std::string> &ip1, const std::vector<std::stri
             if (ip1_len != ip2_len) {
                 return ip1_len > ip2_len;
             }
-            for (int j = 0; j < ip1_len; ++j) {
+            for (size_t j = 0; j < ip1_len; ++j) {
                 char a = ip1[i][j] - 48;
                 char b = ip2[i][j] - 48;
                 if (a != b) {
