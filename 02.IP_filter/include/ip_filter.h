@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <exception>
 #include <vector>
+#include <array>
 
 // ("",  '.') -> [""]
 // ("11", '.') -> ["11"]
@@ -33,8 +34,20 @@ std::vector<std::string> split(const std::string &str, char d)
 }
 
 
+// convert string array to uint8 array
+std::array<int, 4> convert_row(const std::vector<std::string> &row) {
+
+    std::array<int, 4> output;
+    for (int i = 0; i < 4; ++i) {
+        output[i] = stoi(row[i]);
+    }
+    return output;
+
+}
+
+
 // vector comparison function
-bool vector_cmp(const std::vector<std::string> &ip1, const std::vector<std::string> &ip2) {
+bool vector_cmp(const std::array<int, 4> &ip1, const std::array<int, 4> &ip2) {
 
     if (ip1 == ip2) {
         return false;
@@ -43,21 +56,11 @@ bool vector_cmp(const std::vector<std::string> &ip1, const std::vector<std::stri
     // Compare the octets and return the result
     for (int i = 0; i < 4; i++) {
 
-        if (ip1[i] != ip2[i]) {
-            
-            size_t ip1_len = ip1[i].length();
-            size_t ip2_len = ip2[i].length();
-            if (ip1_len != ip2_len) {
-                return ip1_len > ip2_len;
-            }
-            for (size_t j = 0; j < ip1_len; ++j) {
-                char a = ip1[i][j] - 48;
-                char b = ip2[i][j] - 48;
-                if (a != b) {
-                    return a > b;
-                }
-            }
-
+        if (ip1[i] > ip2[i]) {
+            return true;
+        } 
+        else if (ip1[i] < ip2[i]) {
+            return false;
         }
 
     }
@@ -67,7 +70,7 @@ bool vector_cmp(const std::vector<std::string> &ip1, const std::vector<std::stri
 
 
 // function to sort all ip in vector
-void sort_ips(std::vector<std::vector<std::string>> &ip_pool) {
+void sort_ips(std::vector<std::array<int, 4>> &ip_pool) {
 
     std::sort(ip_pool.begin(), ip_pool.end(), vector_cmp);
 
@@ -75,33 +78,25 @@ void sort_ips(std::vector<std::vector<std::string>> &ip_pool) {
 
 
 // function to filter specific byte by value
-std::vector<std::vector<std::string>> filter(
-    const std::vector<std::vector<std::string>> &ip_pool, 
+std::vector<std::array<int, 4>> filter(
+    const std::vector<std::array<int, 4>> &ip_pool, 
     int filter_byte_0 = -1, 
     int filter_byte_1 = -1, 
     int filter_byte_2 = -1, 
     int filter_byte_3 = -1
 ) {
 
-    std::vector<std::vector<std::string>> result{};
-    std::vector<std::string> ip_vec{};
-
-    int byte_counter = 0;    
+    std::vector<std::array<int, 4>> result{}; 
     std::vector<int> filter_bytes{filter_byte_0, filter_byte_1, filter_byte_2, filter_byte_3};
     
-    for (std::vector<std::vector<std::string>>::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
-    {
-        byte_counter = 0;
-        ip_vec.clear();
-        for (std::vector<std::string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
-        {
-            if (filter_bytes[byte_counter] == -1 || filter_bytes[byte_counter] == stoi(*ip_part)) {
-                ip_vec.emplace_back(*ip_part);
-            }
-            byte_counter++;
-        }
-        if (ip_vec.size() == 4) {
-            result.emplace_back(ip_vec);
+    for (const auto &row : ip_pool) {
+        if (
+            (filter_bytes[0] == -1 || filter_bytes[0] == row[0]) &&
+            (filter_bytes[1] == -1 || filter_bytes[1] == row[1]) &&
+            (filter_bytes[2] == -1 || filter_bytes[2] == row[2]) &&
+            (filter_bytes[3] == -1 || filter_bytes[3] == row[3])
+        ) {
+            result.emplace_back(row);
         }
     }
 
@@ -111,16 +106,16 @@ std::vector<std::vector<std::string>> filter(
 
 
 // function to filter any byte by value
-std::vector<std::vector<std::string>> filter_any(
-    const std::vector<std::vector<std::string>> &ip_pool, 
+std::vector<std::array<int, 4>> filter_any(
+    const std::vector<std::array<int, 4>> &ip_pool, 
     int filter_byte = -1
 ) {
 
-    std::vector<std::vector<std::string>> result{};
+    std::vector<std::array<int, 4>> result{};
     
-    for (std::vector<std::vector<std::string>>::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
+    for (std::vector<std::array<int, 4>>::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
     {
-        if (std::any_of(ip->cbegin(), ip->cend(), [filter_byte](std::string val){ return std::stoi(val) == filter_byte; })) {
+        if (std::any_of(ip->cbegin(), ip->cend(), [filter_byte](int val){ return int(val) == filter_byte; })) {
             result.emplace_back(*ip);
         }
     }
@@ -131,16 +126,16 @@ std::vector<std::vector<std::string>> filter_any(
 
 
 
-void print_results(const std::vector<std::vector<std::string>> &ip_pool) {
-    for (std::vector<std::vector<std::string>>::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
+void print_results(const std::vector<std::array<int, 4>> &ip_pool) {
+    for (std::vector<std::array<int, 4>>::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
     {
-        for (std::vector<std::string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
+        for (std::array<int, 4>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
         {
             if (ip_part != ip->cbegin())
             {
                 std::cout << ".";
             }
-            std::cout << *ip_part;
+            std::cout << int(*ip_part);
         }
         std::cout << std::endl;
     }

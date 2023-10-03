@@ -28,12 +28,13 @@ int main(int argc, const char *argv[])
         if (!input.is_open()) { throw std::runtime_error("\n\tUnable to open file\n"); }
 
         // read file
-        std::vector<std::vector<std::string> > ip_pool;
+        std::vector<std::array<int, 4>> ip_pool;
 
         for (std::string line; std::getline(input, line);)
         {
             std::vector<std::string> v = split(line, '\t');
-            ip_pool.push_back(split(v.at(0), '.'));
+            std::array<int, 4> row = convert_row(split(v.at(0), '.'));
+            ip_pool.push_back(row);
         }
 
         // TODO reverse lexicographically sort
