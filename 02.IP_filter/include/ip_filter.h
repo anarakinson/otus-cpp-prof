@@ -42,11 +42,24 @@ bool vector_cmp(const std::vector<std::string> &ip1, const std::vector<std::stri
  
     // Compare the octets and return the result
     for (int i = 0; i < 4; i++) {
-        if (stoi(ip1[i]) > stoi(ip2[i])) {
-            return true;
-        } else if (stoi(ip1[i]) < stoi(ip2[i])) {
-            return false;
+
+        if (ip1[i] != ip2[i]) {
+            
+            size_t ip1_len = ip1[i].length();
+            size_t ip2_len = ip2[i].length();
+            if (ip1_len != ip2_len) {
+                return ip1_len > ip2_len;
+            }
+            for (int j = 0; j < ip1_len; ++j) {
+                char a = ip1[i][j] - 48;
+                char b = ip2[i][j] - 48;
+                if (a != b) {
+                    return a > b;
+                }
+            }
+
         }
+
     }
     return false;
 
