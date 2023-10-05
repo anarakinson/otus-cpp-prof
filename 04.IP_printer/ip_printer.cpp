@@ -41,7 +41,7 @@ typename std::enable_if<std::is_integral<T>::value, void>::type print_ip(T &&inp
     
     // get every byte of T
     unsigned char *byte_pointer = (unsigned char *)&input;
-    for (int j = 0; j < sizeof(T); ++j) {
+    for (auto j = 0; j < sizeof(T); ++j) {
         output.emplace_back((int)*byte_pointer);
         ++byte_pointer;
     }
