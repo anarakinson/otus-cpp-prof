@@ -5,7 +5,7 @@ set(PATCH_VERSION "1" CACHE INTERNAL "IP Filter")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 ### start project
-project(04.ip_printer VERSION ${PROJECT_VERSION})
+project(print_ip VERSION ${PROJECT_VERSION})
 
 
 add_executable(print_ip
