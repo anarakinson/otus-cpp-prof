@@ -30,12 +30,13 @@
 #include <vector> 
 #include <list>  
 #include <tuple> 
+#include <type_traits>
 
 
 
 /*------ numeric types ------*/ 
 template <typename T>
-void print_ip(T input) {
+typename std::enable_if<std::is_integral<T>::value, void>::type print_ip(T &&input) {
     
     std::vector<int> output{};
     
@@ -46,41 +47,44 @@ void print_ip(T input) {
         ++byte_pointer;
     }
     std::reverse(output.begin(), output.end());
-    print_ip(output);
-
-}
-
-
-/*------ containers ------*/ 
-template <typename T>
-struct is_container { static const bool value=false; };
-template <typename T>
-struct is_container<std::vector<T>> { bool value=true; };
-template <typename T>
-struct is_container<std::list<T>> { bool value=true; };
-
-template <typename T>
-typename std::enable_if<is_container<T>::value, void>::type print_ip(const T &lst) {
-
+    // print_ip(output);
     size_t counter = 0;
-    for (auto x : lst) {
+    for (auto x : output) {
         std::cout << x;
-        if (counter++ != lst.size() - 1) std::cout << ".";        
+        if (counter++ != output.size() - 1) std::cout << ".";        
     }
     std::cout << std::endl;
 
 }
 
-/*------ string ------*/ 
-template <class T>
-struct is_string { static const bool value=false; };
-template <>
-struct is_string<std::string> { bool value=true; };
+
+/*------ containers list && vector ------*/ 
+template <typename T>
+struct is_container: std::false_type {};
+template <typename T>
+struct is_container<std::vector<T>>: std::true_type {};
+template <typename T>
+struct is_container<std::list<T>>: std::true_type {};
 
 template <typename T>
-typename std::enable_if<is_string<T>::value, void>::type print_ip(const T &str) {
+typename std::enable_if<is_container<T>::value, void>::type print_ip(T &&container) {
+
+    size_t counter = 0;
+    for (auto x : container) {
+        std::cout << x;
+        if (counter++ != container.size() - 1) std::cout << ".";        
+    }
+    std::cout << std::endl;
+
+}
+
+
+/*------ string ------*/ 
+template <typename T>
+typename std::enable_if<std::is_same<T, std::string>::value, void>::type print_ip(T &&str) {
     std::cout << str << std::endl;
 }
+
 
 /*------ tuple ------*/ 
 template <size_t I = 0, typename... Args>
@@ -99,7 +103,7 @@ typename std::enable_if<(I < sizeof...(Args) - 1), void>::type print_tuple(std::
 
 
 template <typename... Args>
-constexpr void print_ip(std::tuple<Args...> tuple) {
+constexpr void print_ip(std::tuple<Args...> &&tuple) {
    print_tuple(tuple);
 }
 
@@ -116,4 +120,3 @@ int main() {
     print_ip( std::make_tuple(123, 456, 789, 0) );    // 123.456.789.0
 
 }
-
