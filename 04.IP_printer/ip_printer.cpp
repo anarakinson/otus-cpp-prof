@@ -90,13 +90,14 @@ typename std::enable_if<std::is_same<T, std::string>::value, void>::type print_i
 template <typename First, typename... T>
 struct all_same_type {
     constexpr static bool value = std::is_same< 
-        std::tuple<First, T...>,
-        std::tuple<T..., First>
-    >::value;
+        std::tuple<First, T...>,   // check that if first element is same as the last
+        std::tuple<T..., First>    // and the last elements the same as first
+    >::value;                      // than return true
 };
 
 template <typename... T>
 struct all_same_type<std::tuple<T...>> : all_same_type<T...> {};
+
 
 /* display elements */
 template <size_t I = 0, typename... Args>
