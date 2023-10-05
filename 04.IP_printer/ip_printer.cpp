@@ -41,7 +41,7 @@ typename std::enable_if<std::is_integral<T>::value, void>::type print_ip(T &&inp
     
     // get every byte of T
     unsigned char *byte_pointer = (unsigned char *)&input;
-    for (auto j = 0; j < sizeof(T); ++j) {
+    for (int j = 0; j < static_cast<int>(sizeof(T)); ++j) {
         output.emplace_back((int)*byte_pointer);
         ++byte_pointer;
     }
@@ -105,6 +105,7 @@ template <typename... Args>
 constexpr void print_ip(std::tuple<Args...> &&tuple) {
    print_tuple(tuple);
 }
+
 
 
 int main() {
