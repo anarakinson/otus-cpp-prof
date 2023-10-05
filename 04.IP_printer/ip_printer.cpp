@@ -86,6 +86,19 @@ typename std::enable_if<std::is_same<T, std::string>::value, void>::type print_i
 
 
 /*------ tuple ------*/ 
+/* check, if all elements the same type */
+template <typename First, typename... T>
+struct all_same_type {
+    constexpr static bool value = std::is_same< 
+        std::tuple<First, T...>,
+        std::tuple<T..., First>
+    >::value;
+};
+
+template <typename... T>
+struct all_same_type<std::tuple<T...>> : all_same_type<T...> {};
+
+/* display elements */
 template <size_t I = 0, typename... Args>
 typename std::enable_if<I == sizeof...(Args) - 1, void>::type print_tuple(std::tuple<Args...> tup) {
     // print the last element
@@ -102,7 +115,7 @@ typename std::enable_if<(I < sizeof...(Args) - 1), void>::type print_tuple(std::
 
 
 template <typename... Args>
-constexpr void print_ip(std::tuple<Args...> &&tuple) {
+constexpr typename std::enable_if<all_same_type<Args...>::value, void>::type print_ip(std::tuple<Args...> &&tuple) {
    print_tuple(tuple);
 }
 
@@ -120,3 +133,16 @@ int main() {
     print_ip( std::make_tuple(123, 456, 789, 0) );    // 123.456.789.0
 
 }
+
+
+template <typename T, typename Tuple>
+struct has_type;
+
+template <typename T>
+struct has_type<T, std::tuple<>> : std::false_type {};
+
+template <typename T, typename U, typename... Ts>
+struct has_type<T, std::tuple<U, Ts...>> : has_type<T, std::tuple<Ts...>> {};
+
+template <typename T, typename... Ts>
+struct has_type<T, std::tuple<T, Ts...>> : std::true_type {};
