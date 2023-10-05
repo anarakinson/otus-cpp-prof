@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 
+### set version
+set(PATCH_VERSION "1" CACHE INTERNAL "IP Filter")
+set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
-project(04.ip_printer)
+### start project
+project(04.ip_printer VERSION ${PROJECT_VERSION})
 
 
 add_executable(print_ip
@@ -26,3 +30,18 @@ else ()
         -Wall -Wextra -pedantic -Werror
     )
 endif()
+
+
+### Deb pkg release ###
+install(TARGETS print_ip RUNTIME DESTINATION bin)
+
+set(CPACK_GENERATOR DEB)
+
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+
+set(CPACK_PACKAGE_CONTACT example@example.com)
+
+
+include(CPack)
