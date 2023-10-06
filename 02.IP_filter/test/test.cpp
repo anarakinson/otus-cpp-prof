@@ -48,10 +48,10 @@ TEST(Test, Comparison_Test) {
     std::vector<std::string> vec2{"10", "2", "3", "4"};  // 10.2.3.4
     std::vector<std::string> vec3{"1", "2", "4", "125"}; // 1.2.3.125
 
-    std::array<int, 4> row0 = convert_row(vec0);
-    std::array<int, 4> row1 = convert_row(vec1);
-    std::array<int, 4> row2 = convert_row(vec2);
-    std::array<int, 4> row3 = convert_row(vec3);
+    std::array<uint8_t, 4> row0 = convert_row(vec0);
+    std::array<uint8_t, 4> row1 = convert_row(vec1);
+    std::array<uint8_t, 4> row2 = convert_row(vec2);
+    std::array<uint8_t, 4> row3 = convert_row(vec3);
 
     // Assert
     // Greater than
@@ -65,16 +65,16 @@ TEST(Test, Comparison_Test) {
 
 TEST(Test, Filter_Test) {
     // Arrange
-    std::array<int, 4> vec0{1, 2, 3, 4};       // 1.2.3.4
-    std::array<int, 4> vec1{1, 2, 124, 125};   // 1.2.124.125
-    std::array<int, 4> vec2{1, 125, 3, 4};     // 1.125.3.4
-    std::array<int, 4> vec3{11, 2, 4, 4};      // 11.2.3.125
+    std::array<uint8_t, 4> vec0{1, 2, 3, 4};       // 1.2.3.4
+    std::array<uint8_t, 4> vec1{1, 2, 124, 125};   // 1.2.124.125
+    std::array<uint8_t, 4> vec2{1, 125, 3, 4};     // 1.125.3.4
+    std::array<uint8_t, 4> vec3{11, 2, 4, 4};      // 11.2.3.125
 
     // Act
-    std::vector<std::array<int, 4>> all_vecs{vec0, vec1, vec2, vec3};
-    std::vector<std::array<int, 4>> reference{vec0, vec1};      // started with '1.2'
+    std::vector<std::array<uint8_t, 4>> all_vecs{vec0, vec1, vec2, vec3};
+    std::vector<std::array<uint8_t, 4>> reference{vec0, vec1};      // started with '1.2'
 
-    std::vector<std::array<int, 4>> filtered = filter(all_vecs, 1, 2);     // started with '1.2'
+    std::vector<std::array<uint8_t, 4>> filtered = filter(all_vecs, 1, 2);     // started with '1.2'
 
     // Assert
     EXPECT_EQ(reference, filtered);
@@ -83,16 +83,16 @@ TEST(Test, Filter_Test) {
 
 TEST(Test, Filter_Any_Test) {
     // Arrange
-    std::array<int, 4> vec0{1, 2, 3, 4};       // 1.2.3.4
-    std::array<int, 4> vec1{1, 2, 124, 125};   // 1.2.124.125
-    std::array<int, 4> vec2{1, 125, 3, 4};     // 1.125.3.4
-    std::array<int, 4> vec3{11, 2, 4, 4};      // 11.2.3.125
+    std::array<uint8_t, 4> vec0{1, 2, 3, 4};       // 1.2.3.4
+    std::array<uint8_t, 4> vec1{1, 2, 124, 125};   // 1.2.124.125
+    std::array<uint8_t, 4> vec2{1, 125, 3, 4};     // 1.125.3.4
+    std::array<uint8_t, 4> vec3{11, 2, 4, 4};      // 11.2.3.125
 
     // Act
-    std::vector<std::array<int, 4>> all_vecs{vec0, vec1, vec2, vec3};
-    std::vector<std::array<int, 4>> reference{vec1, vec2};      // contains '125.'
+    std::vector<std::array<uint8_t, 4>> all_vecs{vec0, vec1, vec2, vec3};
+    std::vector<std::array<uint8_t, 4>> reference{vec1, vec2};      // contains '125.'
 
-    std::vector<std::array<int, 4>> filtered = filter_any(all_vecs, 125);  // contains '125.'
+    std::vector<std::array<uint8_t, 4>> filtered = filter_any(all_vecs, 125);  // contains '125.'
 
     // Assert
     EXPECT_EQ(reference, filtered);

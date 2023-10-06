@@ -28,12 +28,12 @@ int main(int argc, const char *argv[])
         if (!input.is_open()) { throw std::runtime_error("\n\tUnable to open file\n"); }
 
         // read file
-        std::vector<std::array<int, 4>> ip_pool;
+        std::vector<std::array<uint8_t, 4>> ip_pool;
 
         for (std::string line; std::getline(input, line);)
         {
             std::vector<std::string> v = split(line, '\t');
-            std::array<int, 4> row = convert_row(split(v.at(0), '.'));
+            std::array<uint8_t, 4> row = convert_row(split(v.at(0), '.'));
             ip_pool.push_back(row);
         }
 
