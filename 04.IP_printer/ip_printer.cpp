@@ -80,7 +80,7 @@ typename std::enable_if<is_container<T>::value, void>::type print_ip(T &&contain
 
 /*------ string ------*/ 
 template <typename T>
-[[deprecated]] typename std::enable_if<std::is_same<T, std::string>::value, void>::type print_ip(T &&str) {
+typename std::enable_if<std::is_same<T, std::string>::value, void>::type print_ip(T &&str) {
     std::cout << str << std::endl;
 }
 
