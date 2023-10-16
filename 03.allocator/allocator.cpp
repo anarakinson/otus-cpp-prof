@@ -104,17 +104,7 @@ int main() {
     }
 
 
-    std::cout << "map" << ": ";
-    for (int i = 0; i < 10; ++i) {
-        std::cout << map[i] << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "map_a" << ": ";
-    for (int i = 0; i < 10; ++i) {
-        std::cout << map_a[i] << " ";
-    }
-    std::cout << std::endl;
-
+    print_map("basic allocator", map);
+    print_map("custom allocator", map_a);
 
 }
