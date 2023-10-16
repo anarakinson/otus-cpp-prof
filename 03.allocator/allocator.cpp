@@ -8,6 +8,14 @@
 #define UNUSED(X) (void *)X
 
 
+int factorial(const int n) {
+    long f = 1;
+    for (int i = 1; i <= n; ++i)
+        f *= i;
+    return f;
+}
+
+
 template <typename T>
 void print_map(const char *name, T &map) {
     
@@ -57,9 +65,8 @@ public:
         else {
             pool_start = pool_end;
         }
-        auto output = pool_start;
         pool_end = pool_start + size * sizeof(T);
-        return output; 
+        return pool_start; //dummy implementation
     }
 
     void deallocate(T *ptr, size_t size) {
@@ -99,8 +106,8 @@ int main() {
 
 
     for (int i = 0; i < 10; ++i) {
-        map[i] = i * i;
-        map_a[i] = i * i;
+        map[i] = factorial(i);
+        map_a[i] = factorial(i);
     }
 
 
