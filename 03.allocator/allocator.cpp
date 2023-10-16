@@ -57,8 +57,9 @@ public:
         else {
             pool_start = pool_end;
         }
+        auto ptr = pool_start;
         pool_end = pool_start + size * sizeof(T);
-        return pool_start; //dummy implementation
+        return ptr; //dummy implementation
     }
 
     void deallocate(T *ptr, size_t size) {
