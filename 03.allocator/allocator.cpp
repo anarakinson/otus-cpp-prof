@@ -51,7 +51,6 @@ public:
     }
 
     T *allocate(size_t size) {
-        // UNUSED(size);
         if (pool_start == nullptr) {
             pool_start = static_cast<T*>(pool.get());
         }
@@ -63,8 +62,8 @@ public:
     }
 
     void deallocate(T *ptr, size_t size) {
-        // UNUSED(size); 
-        // UNUSED(ptr);
+        UNUSED(size); 
+        UNUSED(ptr);
         // ...
     }
 
