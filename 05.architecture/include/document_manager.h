@@ -16,8 +16,15 @@ public:
 
     // get data from document
     std::vector<std::unique_ptr<iShape>> &get_data() { return m_data; }
-    void add_shape(std::unique_ptr<iShape> &&shape) {
+    void add_shape(std::unique_ptr<iShape> &&shape) noexcept {
         m_data.emplace_back(std::move(shape));
+    }
+
+    void show_data() {
+        for (auto &x : m_data) {
+            std::cout << x->get_data() << " ";
+        }
+        std::cout << std::endl;
     }
 
 private:
@@ -29,15 +36,16 @@ private:
 // create and load documents
 class DocumentManager {
 public:
-    static std::unique_ptr<Document> new_document() {
+    static Document new_document() {
         std::cout << "Create empty document" << std::endl;
-        return std::unique_ptr<Document>{new Document{}};
+        return Document{};
     }
 
-    static std::unique_ptr<Document> load_document(const char *path) {
+    static Document load_document(const char *path) {
         std::cout << "load from: " << path << std::endl;
         // loading ...
-        std::unique_ptr<Document> doc{new Document{}};
+        Document doc{};
+        // loaded
         return doc;
     }
 

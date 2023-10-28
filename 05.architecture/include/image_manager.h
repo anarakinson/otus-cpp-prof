@@ -16,7 +16,7 @@ public:
 };
 
 
-class Line : iShape {
+class Line : public iShape {
 public:
     std::string get_data() override {
         return m_data;
