@@ -1,6 +1,6 @@
 #pragma once
 
-#include <document.h>
+#include <image_manager.h>
 
 #include <iostream>
 #include <memory>
@@ -13,20 +13,15 @@
 class Document {
 public:
     Document() = default;
-    Document(const std::string &data) : m_data{data} {}
-
-    // get metadata from document
-    std::string get_metadata() { return m_metadata; }
 
     // get data from document
-    std::string get_data() { return m_data; }
-
-    // document editing
-    void edit(std::string data) { m_metadata = data; }
+    std::vector<std::unique_ptr<iShape>> &get_data() { return m_data; }
+    void add_shape(std::unique_ptr<iShape> &&shape) {
+        m_data.emplace_back(std::move(shape));
+    }
 
 private:
-    std::string m_metadata = std::string("Document data");
-    std::vector<IShape> m_data{};
+    std::vector<std::unique_ptr<iShape>> m_data{};
 
 };
 
@@ -39,15 +34,10 @@ public:
         return std::unique_ptr<Document>{new Document{}};
     }
 
-    static std::unique_ptr<Document> new_document(const std::string &data) {
-        std::cout << "Create document with data" << std::endl;
-        return std::unique_ptr<Document>{new Document{data}};
-    }
-
     static std::unique_ptr<Document> load_document(const char *path) {
         std::cout << "load from: " << path << std::endl;
         // loading ...
-        std::unique_ptr<Document> doc{new Document{"Some data created earlier..."}};
+        std::unique_ptr<Document> doc{new Document{}};
         return doc;
     }
 

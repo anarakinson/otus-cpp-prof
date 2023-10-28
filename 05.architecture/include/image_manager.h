@@ -1,28 +1,30 @@
 #pragma once
 
-#include <image.h>
-
 #include <iostream>
 #include <memory>
 #include <string>
 
 
 // basic image class
-class IShape {
+class iShape {
 public:
-    static void get_data() {
+    virtual ~iShape() {}
 
+    virtual std::string get_data() = 0;
+    virtual void edit(const std::string &) = 0;
+
+};
+
+
+class Line : iShape {
+public:
+    std::string get_data() override {
+        return m_data;
     }
-
+    void edit(const std::string &data) override {
+        m_data = data;
+    }
 private:
-
-
-};
-
-
-// create and delete images
-class ImageManager {
-public:
+    std::string m_data = "Line";
 
 };
-
