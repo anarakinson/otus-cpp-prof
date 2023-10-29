@@ -20,11 +20,19 @@ public:
         m_data.emplace_back(std::move(shape));
     }
 
-    void show_data() {
+    void show() {
         for (auto &x : m_data) {
             std::cout << x->get_data() << " ";
         }
         std::cout << std::endl;
+    }
+
+    void erase(int index) {
+        m_data.erase(m_data.begin() + index);
+    }
+
+    void save(const char *path) {
+        std::cout << "Save to: " << path << std::endl;
     }
 
 private:
@@ -33,20 +41,3 @@ private:
 };
 
 
-// create and load documents
-class DocumentManager {
-public:
-    static Document new_document() {
-        std::cout << "Create empty document" << std::endl;
-        return Document{};
-    }
-
-    static Document load_document(const char *path) {
-        std::cout << "load from: " << path << std::endl;
-        // loading ...
-        Document doc{};
-        // loaded
-        return doc;
-    }
-
-};

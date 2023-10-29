@@ -28,3 +28,17 @@ private:
     std::string m_data = "Line";
 
 };
+
+
+class Circle : public iShape {
+public:
+    std::string get_data() override {
+        return m_data;
+    }
+    void edit(const std::string &data) override {
+        m_data = data;
+    }
+private:
+    std::string m_data = "Circle";
+
+};

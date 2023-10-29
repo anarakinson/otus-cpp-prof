@@ -39,12 +39,22 @@ MVC (Model-View-Controller) — это архитектурный паттерн
 
 int main() {
 
-    Document doc = DocumentManager::new_document();
+    GUI gui{};
+    gui.new_document();
         
-    std::unique_ptr<Line> line_ptr{new Line};
-    doc.add_shape(std::move(line_ptr));
+    std::unique_ptr<Line> line_ptr1{new Line};
+    std::unique_ptr<Line> line_ptr2{new Line};
+    std::unique_ptr<Circle> circle_ptr{new Circle};
 
-    doc.show_data();
+    gui.add_shape(std::move(line_ptr1));
+    gui.add_shape(std::move(circle_ptr));
+    gui.add_shape(std::move(line_ptr2));
+
+    gui.show_document();
+
+    std::cout << "erase some elements: " << std::endl;
+    gui.erase(1);
+    gui.show_document();
 
 }
 
