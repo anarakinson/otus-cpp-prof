@@ -1,4 +1,4 @@
-name: 'C++ IP_printer'
+name: 'C++ architecture'
 
 
 on:
@@ -7,7 +7,7 @@ on:
       - main
       - feature/github_actions
     paths:
-      - '04.IP_printer/**'
+      - '05.architecture/**'
   workflow_dispatch:
 
 
@@ -23,12 +23,12 @@ jobs:
 
       ### Install requirements ###
       - name: Install requirements
-        working-directory: ./04.IP_printer/
+        working-directory: ./05.architecture/
         run: |
              sudo apt-get update && sudo apt-get install cmake -y 
       ### Build ###
-      - name: Build 04.IP_printer
-        working-directory: ./04.IP_printer/
+      - name: Build 05.architecture
+        working-directory: ./05.architecture/
         run: |
              cmake -B build -DPATCH_VERSION=${{ github.run_number }}
              cmake --build build
@@ -48,14 +48,14 @@ jobs:
           prerelease: false
         
       ### Upload release ###
-      - name: Upload "04.IP_printer" Release Asset
+      - name: Upload "05.architecture" Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./04.IP_printer/build/print_ip-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ./05.architecture/build/architecture-0.0.${{ github.run_number }}-Linux.deb
           asset_name: print_ip-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
 

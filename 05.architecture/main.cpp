@@ -59,6 +59,7 @@ int main() {
     std::cout << "erase some elements: " << std::endl;
     gui.erase(1);
     gui.show_document();
+    // save
     gui.save_document("/path/to/doc.xxx");
 
 }
