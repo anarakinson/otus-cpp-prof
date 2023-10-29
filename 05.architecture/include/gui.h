@@ -89,6 +89,14 @@ public:
             std::cout << "no documents are open" << std::endl;
         }
     }
+    template <typename T>
+    void add_shape(std::unique_ptr<T> &&shape) {
+        if (m_current_document != nullptr) {
+            m_current_document->add_shape(std::move(shape));
+        } else {
+            std::cout << "no documents are open" << std::endl;
+        }
+    }
 
     // erase shape from current document 
     void erase(int index) {
