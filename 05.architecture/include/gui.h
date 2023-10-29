@@ -79,10 +79,12 @@ public:
         }
     }
 
-    // add shape to current document 
-    void add_shape(std::unique_ptr<iShape> &&shape) {
+    // add shape to current document
+    template <typename T>
+    void add_shape(T &&shape) {
         if (m_current_document != nullptr) {
-            m_current_document->add_shape(std::move(shape));
+            auto unishape = std::make_unique<T>(shape);
+            m_current_document->add_shape(std::move(unishape));
         } else {
             std::cout << "no documents are open" << std::endl;
         }

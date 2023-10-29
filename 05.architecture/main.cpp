@@ -42,16 +42,11 @@ int main() {
     GUI gui{};
     // create new document
     gui.new_document();
-        
-    // create some shapes
-    std::unique_ptr<Line> line_ptr1{new Line};
-    std::unique_ptr<Line> line_ptr2{new Line};
-    std::unique_ptr<Circle> circle_ptr{new Circle};
 
     // add some shapes
-    gui.add_shape(std::move(line_ptr1));
-    gui.add_shape(std::move(circle_ptr));
-    gui.add_shape(std::move(line_ptr2));
+    gui.add_shape(Line{});
+    gui.add_shape(Circle{});
+    gui.add_shape(Line{});
 
     gui.show_document();
 
