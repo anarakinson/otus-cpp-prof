@@ -45,7 +45,6 @@ int main() {
         
     // create some shapes
     std::unique_ptr<Line> line_ptr1{new Line};
-    std::unique_ptr<Line> line_ptr2{new Line};
     std::unique_ptr<Circle> circle_ptr{new Circle};
 
     // add some shapes
@@ -62,6 +61,7 @@ int main() {
     // erase some shapes
     std::cout << "erase some elements: " << std::endl;
     gui.erase(1);
+    gui.erase(3);
     gui.show_document();
     // save
     gui.save_document("/path/to/doc.xxx");
