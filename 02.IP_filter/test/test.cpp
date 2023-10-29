@@ -11,6 +11,7 @@ TEST(Basic, Basic_Test) {
     EXPECT_EQ(a, b);
 }
 
+
 TEST(Test, Basic_Test) {
     // Arrange
     const int expected_zero_size = 0;
