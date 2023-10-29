@@ -50,11 +50,12 @@ public:
         }
     }
 
+    // close current document
     void close_document() {
         if (m_current_document != nullptr) { delete m_current_document; }
     }
 
-
+    // show current document
     void show_document() {
         if (m_current_document != nullptr) {
             m_current_document->show();
@@ -63,6 +64,7 @@ public:
         }
     }
 
+    // add shape to current document 
     void add_shape(std::unique_ptr<iShape> &&shape) {
         if (m_current_document != nullptr) {
             m_current_document->add_shape(std::move(shape));
@@ -71,6 +73,7 @@ public:
         }
     }
 
+    // erase shape from current document 
     void erase(int index) {
         if (m_current_document != nullptr) {
             m_current_document->erase(index);
@@ -78,17 +81,6 @@ public:
             std::cout << "no documents are open" << std::endl;
         }
     }
-
-
-    // Document *current_document() {
-    //     if (m_current_document != nullptr) {
-    //         return m_current_document;
-    //     } 
-    //     else {
-    //         std::cout << "no documents are open" << std::endl;
-    //         return nullptr;
-    //     }
-    // }
 
 
 private:
