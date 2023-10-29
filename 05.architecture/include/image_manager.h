@@ -16,6 +16,7 @@ public:
 };
 
 
+// line shape
 class Line : public iShape {
 public:
     std::string get_data() override {
@@ -29,7 +30,7 @@ private:
 
 };
 
-
+// circle shape
 class Circle : public iShape {
 public:
     std::string get_data() override {

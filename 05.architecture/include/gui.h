@@ -10,7 +10,9 @@
 
 
 
-// create and load documents
+// class for work with documents
+// can add shapes, save and load documents,
+// show data of document
 class GUI {
 public:
 
@@ -53,7 +55,20 @@ public:
     // close current document
     void close_document() {
         if (m_current_document != nullptr) { delete m_current_document; }
+        else {
+            std::cout << "no documents are open" << std::endl;
+        }
     }
+
+    // save current document
+    void save_document(const char *path) {
+        if (m_current_document != nullptr) {
+            m_current_document->save(path);
+        } else {
+            std::cout << "no documents are open" << std::endl;
+        }
+    }
+
 
     // show current document
     void show_document() {

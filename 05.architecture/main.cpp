@@ -1,4 +1,3 @@
-#include <model.h>
 #include <gui.h>
 #include <document_manager.h>
 #include <image_manager.h>
@@ -39,22 +38,28 @@ MVC (Model-View-Controller) — это архитектурный паттерн
 
 int main() {
 
+    // init GUI
     GUI gui{};
+    // create new document
     gui.new_document();
         
+    // create some shapes
     std::unique_ptr<Line> line_ptr1{new Line};
     std::unique_ptr<Line> line_ptr2{new Line};
     std::unique_ptr<Circle> circle_ptr{new Circle};
 
+    // add some shapes
     gui.add_shape(std::move(line_ptr1));
     gui.add_shape(std::move(circle_ptr));
     gui.add_shape(std::move(line_ptr2));
 
     gui.show_document();
 
+    // erase some shapes
     std::cout << "erase some elements: " << std::endl;
     gui.erase(1);
     gui.show_document();
+    gui.save_document("/path/to/doc.xxx");
 
 }
 
