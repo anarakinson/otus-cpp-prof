@@ -9,6 +9,15 @@ add_executable(allocator
 )
 
 
+target_include_directories(
+    allocator
+    PRIVATE 
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_BINARY_DIR}
+)
+
+
 set_target_properties(
     allocator
     PROPERTIES
