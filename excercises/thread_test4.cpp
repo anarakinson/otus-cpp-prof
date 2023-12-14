@@ -17,8 +17,8 @@ int main() {
 
     std::thread thread1( [&x](){ 
         while (x <= 10) {
-            x++; 
             std::this_thread::sleep_for(100ms);
+            x++; 
             std::cout << ".";
         } 
         std::cout << std::endl;
