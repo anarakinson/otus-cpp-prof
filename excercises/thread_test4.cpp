@@ -26,6 +26,7 @@ int main() {
     thread1.detach();
 
     while(x <= 10);
+    
     std::cout << "x: " << x << std::endl;
     assert(x >= 10);
 
