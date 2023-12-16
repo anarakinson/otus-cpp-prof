@@ -15,12 +15,18 @@ public:
 
 struct testy {
     std::array<double, 10> data;
-    double operator[] (int idx) const { return 1 / data[idx]; }
-    proxy operator[](int idx)        {return proxy(*this, idx);}
+    double operator[] (int idx) const { 
+        std::cout << "setter" << std::endl;
+        return data[idx]; 
+    }
+    proxy operator[](int idx) {
+        std::cout << "getter" << std::endl;
+        return proxy(*this, idx);
+    }
 };
 
 proxy& proxy::operator=(double val) {
-    _t.data[_idx] = 1. / val;
+    _t.data[_idx] = val;
     return *this;
 }
 
