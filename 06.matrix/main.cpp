@@ -68,7 +68,7 @@ public:
 
     // getter
     const T & get_item (size_t key) const {
-        std::cout << "get" << std::endl;
+        // std::cout << "get" << std::endl;
         if (m_data.count(key)) {
             return m_data.at(key);
         }
@@ -78,7 +78,7 @@ public:
     }
     // setter
     T & set_item (size_t key, T v) {
-        std::cout << "set" << std::endl;
+        // std::cout << "set" << std::endl;
         m_size++;
         return m_data[key] = v;
     }
@@ -88,11 +88,11 @@ public:
         // std::cout << "set" << std::endl;
         return Result(*this, key); 
     }
-    // operator [] for getter
-    const T & operator [] (size_t key) const {
-        // std::cout << "get" << std::endl;
-        return get_item(key);
-    }
+    // // operator [] for getter
+    // const T & operator [] (size_t key) const {
+    //     // std::cout << "get" << std::endl;
+    //     return get_item(key);
+    // }
 
     size_t size() { return m_size; }
 
@@ -110,22 +110,7 @@ private:
 
 int main() {
 
-    Matrix<int, -123> mat{};
-    // std::map<size_t, Rows<int, -19>> mat{};
-
-
-    // // int x = mat.get(1, 2);
-    // // std::cout << x << std::endl;
-
-    // mat.set(1, 2, 3);
-    // int y = mat.get(1, 2);
-    // std::cout << y << std::endl;
-
-
-    // std::map<size_t, std::map<size_t, int>> rows{};
-    // rows[1][2] = 10;
-    // auto x = rows[1][2];
-    // std::cout << x << std::endl;
+    // Matrix<int, -123> mat{};
 
 /* ------------------------------- */
     // Rows<int, -123> rows{};
@@ -136,35 +121,21 @@ int main() {
     // std::cout << x << " " << y << std::endl;
 /* ------------------------------- */
 
-    auto x = mat[1][2];
-    std::cout << x << std::endl;
-    mat[1][2] = 11;
-    mat[2][2] = 12;
-    mat[3][2] = 13;
-    mat[4][2] = 14;
-    auto x3 = mat[1][2];
-    std::cout << x3 << std::endl;
+    // auto x = mat[1][2];
+    // std::cout << x << std::endl;
+    // mat[1][2] = 11;
+    // mat[2][2] = 12;
+    // mat[3][2] = 13;
+    // mat[4][2] = 14;
+    // auto x3 = mat[1][2];
+    // std::cout << x3 << std::endl;
 
-    auto x0 = mat[1][1];
-    std::cout << x0 << std::endl;
-    auto x1 = mat[2][2];
-    std::cout << x1 << std::endl;
-    std::cout << mat.size() << std::endl;
-
-
-    // mat.set(3, 2, 3);
-    // mat.set(4, 2, 3);
-    // mat.set(5, 2, 3);
+    // auto x0 = mat[1][1];
+    // std::cout << x0 << std::endl;
+    // auto x1 = mat[2][2];
+    // std::cout << x1 << std::endl;
     // std::cout << mat.size() << std::endl;
 
-    // mat[2][2] = 999;
-    // auto x2 = mat[2][2];
-    // std::cout << x2 << std::endl;
-    
-
-    // mat[2] = 1;
-    // auto y = mat[2];
-    // std::cout << y << std::endl;
 
     /*-------------------------------------------------------------*/
     // Matrix<int, -1> matrix;
@@ -176,8 +147,8 @@ int main() {
     // assert(matrix[100][100] == 314);
     // assert(matrix.size() == 1);
 
-    // // выведется одна строка
-    // // 100100314
+    // выведется одна строка
+    // 100100314
     // for(auto c: matrix)
     // {
     //     int x;
@@ -186,6 +157,27 @@ int main() {
     //     std::tie(x, y, v) = c;
     //     std::cout << x << y << v << std::endl;
     // }
+
+
+    /*-------------------------------------------------------------*/
+    Matrix<int, 0> matrix;
+
+    for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {
+            if (i == j || (i == 9 - j)) {
+                matrix[i][j] = i;
+            }
+        }
+    }
+
+    std::cout << "size: " << matrix.size() << "\n" << std::endl;
+
+    for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {    
+            std::cout << matrix[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
 
 
 
