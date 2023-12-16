@@ -28,6 +28,7 @@ int main() {
 
 
     /*-------------------------------------------------------------*/
+    // При запуске программы необходимо создать матрицу
     Matrix<int, 0> matrix;
 
     for (int i = 0; i < 10; ++i) {
@@ -38,8 +39,7 @@ int main() {
         }
     }
 
-    std::cout << "size: " << matrix.size() << "\n" << std::endl;
-
+    // Необходимо вывести фрагмент матрицы от [1,1] до [8,8].
     for (int i = 1; i < 9; ++i) {
         for (int j = 1; j < 9; ++j) {    
             std::cout << matrix[i][j] << " ";
@@ -49,6 +49,10 @@ int main() {
 
     std::cout << std::endl;
 
+    // Вывести количество занятых ячеек.
+    std::cout << "size: " << matrix.size() << "\n" << std::endl;
+    
+    // Вывести все занятые ячейки вместе со своими позициями.
     std::cout << "Occupied cells:" << std::endl;
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 10; ++j) {  
