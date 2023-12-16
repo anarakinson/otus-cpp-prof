@@ -42,6 +42,7 @@ template <typename T, T DefaultVal>
 class Rows {
 public:
 
+    // helper struct
     struct Result {
         Rows<T, DefaultVal> &map_;
         size_t key_;
@@ -74,7 +75,7 @@ public:
         return m_data[key] = v;
     }
 
-    // operator [] for setter
+    // operator [] for getter and setter
     Result operator [] (size_t key) { 
         // std::cout << "set" << std::endl;
         return Result(*this, key); 
