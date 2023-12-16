@@ -47,4 +47,16 @@ int main() {
         std::cout << std::endl;
     }
 
+    std::cout << std::endl;
+
+    std::cout << "Occupied cells:" << std::endl;
+    for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {  
+            if (matrix[i][j].is_occupied()) {
+                std::cout << "map[" << i << "][" << j << "] = " << matrix[i][j];
+                std::cout << std::endl;
+            }
+        }
+    }
+
 }

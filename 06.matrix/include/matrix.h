@@ -29,7 +29,6 @@ public:
         return size; 
     }
 
-
 private:
 
     std::map<size_t, Rows<T, DefaultVal>> m_data{};
@@ -52,6 +51,9 @@ public:
         }
         T & operator = (T rhs) {
             return map_.set_item(key_, rhs);
+        }
+        bool is_occupied() {
+            return map_.is_occupied(key_);
         }
         // operator T() {
         //     return static_cast<T>(map_[key_]);
@@ -83,6 +85,9 @@ public:
 
     size_t size() { return m_size; }
 
+    bool is_occupied(size_t key) const {
+        return m_data.count(key);
+    }
 
 private:
 
