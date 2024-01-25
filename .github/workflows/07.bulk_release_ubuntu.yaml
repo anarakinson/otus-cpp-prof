@@ -42,7 +42,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.run_number + 100 }}
+          tag_name: 10${{ github.run_number }}
           release_name: Release - 07.bulk - ${{ github.run_number }}
           draft: false
           prerelease: false
