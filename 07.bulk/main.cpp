@@ -1,7 +1,12 @@
 
+#include <direct.h>
+
 #include <iostream>
+#include <format>
+#include <fstream>
 #include <vector>
 #include <string>
+#include <chrono>
 
 
 
@@ -18,9 +23,9 @@ public:
             m_line != "eof" && 
             m_line != "EOF"
         ) {
+
             // body of loop
             if (m_line == "{") {
-                print_lines();
                 m_braces++;
             } else if (m_line == "}") {
                 m_braces--;
@@ -29,9 +34,16 @@ public:
                 m_lines.push_back(m_line);
             }
             // if braces closed and vector full:
-            if (m_braces == 0 && m_lines.size() >= m_n) {
+            if (
+                m_lines.size() > 0 && (
+                (m_braces == 0 && (m_lines.size() >= m_n || m_line == "}")) || 
+                (m_braces == 1 && m_line == "{"))
+            ) {
                 print_lines();
             }
+            // get current time on first command of block
+            if (m_lines.size() == 1) { m_filename = get_filename(); }
+
         }
         // after loop
         if (m_braces == 0 && m_lines.size() > 0){
@@ -43,18 +55,51 @@ public:
 private:
     int m_n;
     int m_braces = 0;
+    std::string m_filename;
+
     std::string m_line;
     std::vector<std::string> m_lines;
 
-    // print received lines and clear inner vector 
+
+    // print received lines (to output and to file) and clear inner vector 
     void print_lines() {
+        display_to_console();
+        write_to_file();
+
+        m_lines.clear();
+    }
+
+    // display to console
+    void display_to_console() {
         std::cout << "bulk: "; 
         for (auto l : m_lines) {
             std::cout << l << " ";
         }
         std::cout << std::endl;
-        m_lines.clear();
+
     }
+
+    // write to file
+    void write_to_file() {
+        std::ofstream new_file{};
+        new_file.open("./logs/" + m_filename + ".log");
+        new_file << "bulk: "; 
+        for (auto l : m_lines) {
+            new_file << l << " ";
+        }
+        new_file << std::endl;
+        new_file.close();
+    }
+
+    // create new filename - current timestamp
+    std::string get_filename() {
+        auto now = std::chrono::system_clock::now();
+        auto x = std::chrono::duration_cast<std::chrono::seconds>(
+            now.time_since_epoch()
+        ).count();
+        return std::to_string(x);
+    }
+
 
 };
 
@@ -85,11 +130,16 @@ int get_args(int argc, char **argv) {
 
 int main(int argc, char **argv) {
 
+    // create log directory
+    _mkdir("./logs");
+
+    // parse arguments
     int N = get_args(argc, argv);
     if (N == -1) return 1;
 
     Bulk bulk{N};
 
+    // start program loop
     bulk.loop();
 
     return 0;
