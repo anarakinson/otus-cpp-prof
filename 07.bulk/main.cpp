@@ -102,7 +102,7 @@ private:
 
 
 // parse args and return size of block
-int get_args(int argc, char **argv) {
+size_t get_args(int argc, char **argv) {
 
     std::string USAGE = "USAGE:\n"
     "bulk N\n"
@@ -113,7 +113,7 @@ int get_args(int argc, char **argv) {
         std::cout << USAGE;
         return -1;
     }
-    int N = std::stoi(argv[1]);
+    size_t N = std::stoull(argv[1]);
     std::cout << N << std::endl;
     if (N > 10 || N < 0) {
         std::cout << USAGE;
@@ -131,7 +131,7 @@ int main(int argc, char **argv) {
     std::filesystem::create_directory("./logs");
 
     // parse arguments
-    int N = get_args(argc, argv);
+    size_t N = get_args(argc, argv);
     if (N == -1) return 1;
 
     Bulk bulk{N};
