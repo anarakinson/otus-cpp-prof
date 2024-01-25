@@ -33,6 +33,11 @@ jobs:
              cmake -B build -DPATCH_VERSION=${{ github.run_number }}
              cmake --build build
              cmake --build build --target package
+             ls -la .
+             ls -la build
+             ls -la build/Debug
+             
+             
       
       ######################
       ### Create release ###
