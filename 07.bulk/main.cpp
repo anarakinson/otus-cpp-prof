@@ -19,13 +19,22 @@ public:
             m_line != "EOF"
         ) {
             // body of loop
-            m_lines.push_back(m_line);
-            if (m_lines.size() >= m_n) {
+            if (m_line == "{") {
+                print_lines();
+                m_braces++;
+            } else if (m_line == "}") {
+                m_braces--;
+                if (m_braces < 0) break;
+            } else {
+                m_lines.push_back(m_line);
+            }
+            // if braces closed and vector full:
+            if (m_braces == 0 && m_lines.size() >= m_n) {
                 print_lines();
             }
         }
         // after loop
-        if (m_lines.size() > 0){
+        if (m_braces == 0 && m_lines.size() > 0){
             print_lines();
         }
 
@@ -33,6 +42,7 @@ public:
 
 private:
     int m_n;
+    int m_braces = 0;
     std::string m_line;
     std::vector<std::string> m_lines;
 
