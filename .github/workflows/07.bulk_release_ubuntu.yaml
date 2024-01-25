@@ -1,0 +1,61 @@
+name: 'C++ bulk'
+
+
+on:
+  push:
+    branches:
+      - main
+      - feature/github_actions
+    paths:
+      - '07.bulk/**'
+  workflow_dispatch:
+
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      ### Install requirements ###
+      - name: Install requirements
+        working-directory: ./07.bulk/ 
+        run: |
+             sudo apt-get update && sudo apt-get install cmake -y 
+      ### Build ###
+      - name: Build 07.bulk
+        working-directory: ./07.bulk/
+        run: |
+             cmake -B build -DPATCH_VERSION=${{ github.run_number }}
+             cmake --build build
+             cmake --build build --target package
+      
+      ######################
+      ### Create release ###
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release - 07.bulk - ${{ github.run_number }}
+          draft: false
+          prerelease: false
+        
+      ### Upload release ###
+      - name: Upload "07.bulk" Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./07.bulk/build/architecture-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: bulk-0.0.${{ github.run_number }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
+
