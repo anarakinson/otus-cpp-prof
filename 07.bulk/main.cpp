@@ -10,7 +10,7 @@
 
 class Bulk {
 public:
-    Bulk(int N): m_n{N} {}
+    Bulk(size_t N): m_n{N} {}
 
     // main loop - get lines from std::cin and store in inner vector
     // if vector full - print lines and clear vector
@@ -51,7 +51,7 @@ public:
     }
 
 private:
-    int m_n;
+    size_t m_n;
     int m_braces = 0;
     std::string m_filename;
 
@@ -111,13 +111,13 @@ size_t get_args(int argc, char **argv) {
 
     if (argc > 2 || argc < 2) {
         std::cout << USAGE;
-        return -1;
+        return 0;
     }
     size_t N = std::stoull(argv[1]);
     std::cout << N << std::endl;
-    if (N > 10 || N < 0) {
+    if (N > 10 || N <= 0) {
         std::cout << USAGE;
-        return -1;
+        return 0;
     }
     return N;
 
@@ -132,7 +132,7 @@ int main(int argc, char **argv) {
 
     // parse arguments
     size_t N = get_args(argc, argv);
-    if (N == -1) return 1;
+    if (N == 0) return 1;
 
     Bulk bulk{N};
 
