@@ -5,7 +5,7 @@ set(PATCH_VERSION "1" CACHE INTERNAL "Bulk")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 ### start project
-project(07.bulk VERSION ${PROJECT_VERSION})
+project(bulk VERSION ${PROJECT_VERSION})
 
 
 add_executable(
