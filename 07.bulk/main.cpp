@@ -1,7 +1,6 @@
 
-#include <direct.h>
-
 #include <iostream>
+#include <filesystem>
 #include <format>
 #include <fstream>
 #include <vector>
@@ -130,7 +129,7 @@ int get_args(int argc, char **argv) {
 int main(int argc, char **argv) {
 
     // create log directory
-    _mkdir("./logs");
+    std::filesystem::create_directory("./logs");
 
     // parse arguments
     int N = get_args(argc, argv);
