@@ -12,7 +12,7 @@
 
 
 
-class ConsoleLogger : public Logger {
+class ConsoleLogger : public iLogger {
 public:
 
     // display to console
@@ -30,7 +30,7 @@ public:
 };
 
 
-class FileLogger : public Logger {
+class FileLogger : public iLogger {
 public:
 
     // write to file
@@ -45,6 +45,7 @@ public:
         }
         new_file << std::endl;
         new_file.close();
+
     }
 
 };

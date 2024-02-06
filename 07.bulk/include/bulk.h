@@ -53,7 +53,7 @@ public:
 
     }
 
-    void attach(Logger *logger) {
+    void attach(iLogger *logger) {
         logger->subscribe(this);
         m_loggers.push_back(logger);
     }
@@ -65,7 +65,7 @@ private:
 
     std::string m_line;
     std::vector<std::string> m_lines;
-    std::vector<Logger*> m_loggers;
+    std::vector<iLogger*> m_loggers;
 
     void notify() {
 
