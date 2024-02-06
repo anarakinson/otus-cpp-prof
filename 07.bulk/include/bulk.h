@@ -2,12 +2,12 @@
 
 #include <abstract_logger.h>
 
+
 #include <iostream>
 #include <filesystem>
 #include <fstream>
 #include <vector>
 #include <string>
-#include <chrono>
 
 
 
@@ -43,7 +43,7 @@ public:
                 notify();
             }
             // get current time on first command of block
-            if (m_lines.size() == 1) { m_filename = get_filename(); }
+            if (m_lines.size() == 1) { m_filename = Utils::get_filename(); }
 
         }
         // after loop
@@ -79,16 +79,6 @@ private:
         }
         m_lines.clear();
 
-    }
-
-    
-    // create new filename - current timestamp
-    std::string get_filename() {
-        auto now = std::chrono::system_clock::now();
-        auto x = std::chrono::duration_cast<std::chrono::seconds>(
-            now.time_since_epoch()
-        ).count();
-        return std::to_string(x);
     }
 
 

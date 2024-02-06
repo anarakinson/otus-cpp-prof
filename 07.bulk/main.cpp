@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
     std::filesystem::create_directory("./logs");
 
     // parse arguments
-    size_t N = get_args(argc, argv);
+    size_t N = Utils::get_args(argc, argv);
     if (N == 0) return 1;
 
     // Create bulk
