@@ -9,7 +9,7 @@ class Bulk;
 class Logger {
 public:
     virtual ~Logger() = default;
-    // print received lines (to output and to file) and clear inner vector 
+    // print received lines (to output or to file)
     virtual void print_lines() = 0;
 
     void subscribe(Bulk *bulk) { m_owner = bulk; }
