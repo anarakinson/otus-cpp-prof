@@ -58,14 +58,6 @@ public:
         m_loggers.push_back(logger);
     }
 
-    // std::string get_current_filename() {
-    //     return m_filename;
-    // }
-    
-    // std::vector<std::string> get_current_lines() {
-    //     return m_lines;
-    // }
-
 private:
     size_t m_n;
     int m_braces = 0;
