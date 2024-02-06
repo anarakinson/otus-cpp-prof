@@ -24,6 +24,7 @@ public:
 
     // display to console
     void print_lines(std::vector<std::string> lines, std::string filename) override {
+        (void)(filename);
         std::cout << "bulk: "; 
         for (auto l : lines) {
             std::cout << l << " ";
