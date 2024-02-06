@@ -53,10 +53,12 @@ public:
 
     }
 
+    // attaching loggers to bulk exemplar
     void attach(iLogger *logger) {
         logger->subscribe(this);
         m_loggers.push_back(logger);
     }
+
 
 private:
     size_t m_n;
@@ -65,8 +67,11 @@ private:
 
     std::string m_line;
     std::vector<std::string> m_lines;
+
     std::vector<iLogger*> m_loggers;
 
+
+    // notification for loggers
     void notify() {
 
         for (auto logger : m_loggers) {
@@ -87,10 +92,10 @@ private:
     }
 
 
+    // functions for sharing data with loggers
     std::string get_current_filename() {
         return m_filename;
     }
-    
     std::vector<std::string> get_current_lines() {
         return m_lines;
     }
