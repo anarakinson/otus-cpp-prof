@@ -7,6 +7,7 @@
 #include <string>
 #include <chrono>
 
+#define UNUSED(var) (void)(var)
 
 
 class Logger {
@@ -24,7 +25,7 @@ public:
 
     // display to console
     void print_lines(std::vector<std::string> lines, std::string filename) override {
-        (void)(filename);
+        UNUSED(filename);
         std::cout << "bulk: "; 
         for (auto l : lines) {
             std::cout << l << " ";
