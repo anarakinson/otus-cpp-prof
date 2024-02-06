@@ -1,6 +1,6 @@
 #pragma once 
 
-#include <logger.h>
+#include <abstract_logger.h>
 
 #include <iostream>
 #include <filesystem>
@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <chrono>
+
 
 
 class Bulk {
@@ -53,9 +54,17 @@ public:
     }
 
     void attach(Logger *logger) {
+        logger->subscribe(this);
         m_loggers.push_back(logger);
     }
 
+    // std::string get_current_filename() {
+    //     return m_filename;
+    // }
+    
+    // std::vector<std::string> get_current_lines() {
+    //     return m_lines;
+    // }
 
 private:
     size_t m_n;
@@ -69,7 +78,7 @@ private:
     void notify() {
 
         for (auto logger : m_loggers) {
-            logger->print_lines(m_lines, m_filename);
+            logger->print_lines();
         }
         m_lines.clear();
 
@@ -84,5 +93,18 @@ private:
         ).count();
         return std::to_string(x);
     }
+
+
+    std::string get_current_filename() {
+        return m_filename;
+    }
+    
+    std::vector<std::string> get_current_lines() {
+        return m_lines;
+    }
+
+    // get friends to acces private data
+    friend class ConsoleLogger;
+    friend class FileLogger;
 
 };
