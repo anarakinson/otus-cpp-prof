@@ -18,6 +18,7 @@ public:
     // main loop - get lines from std::cin and store in inner vector
     // if vector full - print lines and clear vector
     void loop() {
+        
         while (
             // condition
             std::getline(std::cin, m_line) && 
