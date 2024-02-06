@@ -21,6 +21,9 @@ set_target_properties(
     CXX_STANDARD_REQUIRED ON
 )
 
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+)
 
 # set compile options
 if (MSVC)
