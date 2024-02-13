@@ -36,17 +36,34 @@ auto split_string(const std::string &str) {
 }
 
 
+void clean_dirs(std::vector<std::string> &dirs) {
+
+    for (auto it = dirs.begin(); it != dirs.end();) {
+
+        if (!fs::exists(*it)) {
+            it = dirs.erase(it);
+        }
+        else {
+            ++it;
+        }
+
+    }
+
+}
+
+
 
 void extend_dirs(std::vector<std::string> &dirs) {
 
     size_t counter = 0;
     while (true) {
-
+        
         std::string path = dirs[counter];
-        for (const auto &obj : fs::directory_iterator(path)) {
-                std::cout << obj.path().string() << std::endl;
-            if (obj.is_directory()) {
-                dirs.emplace_back(obj.path().string());
+        if (fs::exists(path)) { 
+            for (const auto &obj : fs::directory_iterator(path)) {
+                if (obj.is_directory()) {
+                    dirs.emplace_back(obj.path().string());
+                }
             }
         }
         ++counter;
@@ -81,8 +98,6 @@ bool compare_paths(const std::string &path1, const std::string &path2) {
 
 
 void exclude_dirs(std::vector<std::string> &dirs, const std::vector<std::string> &excluded) {
-
-    // if (excluded.size() == 0) return;
     
     for (const auto &str : excluded) {
         auto it = dirs.begin();

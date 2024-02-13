@@ -66,8 +66,14 @@ int main(int argc, char** argv) {
 
     // extending directories
     if (vm["depth"].as<bool>() == true) { extend_dirs(scan_dirs); } 
-    // excluding directories
-    exclude_dirs(scan_dirs, vm["exclude"].as<std::vector<std::string>>());
+    
+    // delete not existed dirs
+    clean_dirs(scan_dirs);
+    
+    // exclude directories
+    if (vm.count("exclude")){
+        exclude_dirs(scan_dirs, vm["exclude"].as<std::vector<std::string>>());
+    } 
 
     // go through directories and compare files
     path_loop(
