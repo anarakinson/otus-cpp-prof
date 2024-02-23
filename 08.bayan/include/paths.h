@@ -1,5 +1,6 @@
 #pragma once 
 
+#include <utils.h>
 
 #include <boost/program_options.hpp>
 #include <boost/tokenizer.hpp>
@@ -15,25 +16,6 @@
 
 namespace po = boost::program_options;
 namespace fs = std::filesystem;
-
-
-auto split_string(const std::string &str) {
-
-    const char *PathSeparator = "\\/";
-    boost::tokenizer<boost::char_separator<char>> tokenizer{
-        str, 
-        boost::char_separator<char>{PathSeparator}
-    };
-
-    std::vector<std::string> res;
-    for (const auto &x : tokenizer) {
-        res.emplace_back(x);
-    }
-    return res;
-
-    // return tokenizer;
-
-}
 
 
 void clean_dirs(std::vector<std::string> &dirs) {
@@ -78,8 +60,8 @@ void extend_dirs(std::vector<std::string> &dirs) {
 
 bool compare_paths(const std::string &path1, const std::string &path2) {
 
-    auto path1_split = split_string(path1);
-    auto path2_split = split_string(path2);
+    auto path1_split = utils::split_string(path1);
+    auto path2_split = utils::split_string(path2);
 
     if (path1_split.size() != path2_split.size()) {
         return false;

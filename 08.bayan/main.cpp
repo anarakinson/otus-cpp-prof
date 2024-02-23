@@ -20,8 +20,6 @@ namespace fs = std::filesystem;
 
 
 
-
-
 void path_loop(const std::vector<std::string> &scan_dirs, std::function<void(fs::directory_entry, fs::directory_entry)> comparator) {
 
     // set to contain already checked paths
@@ -57,7 +55,7 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    print_args(vm);
+    utils::print_args(vm);
     std::cout << std::endl;
     /*----- *** -----*/
 
