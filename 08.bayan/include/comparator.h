@@ -21,7 +21,12 @@ namespace fs = std::filesystem;
 class Comparator {
 public:
 
-    std::string read_block(const std::string path, size_t block_size, size_t block_number) {
+    Comparator() = delete;
+    Comparator(size_t block_size) : block_size{block_size} {}
+    ~Comparator() = default;
+    
+
+    std::string read_block(const std::string path, size_t block_number) {
         
         std::ifstream file{path};
 
@@ -62,18 +67,18 @@ public:
 
 
 
-    bool compare(const std::string path1, const std::string path2, size_t block_size) {
+    bool compare(const std::string path1, const std::string path2) {
         
-        // if (fs::file_size(path1) != fs::file_size(path2)) {
-        //     return false;
-        // } 
+        if (fs::file_size(path1) != fs::file_size(path2)) {
+            return false;
+        } 
 
         size_t block_num = 0;
 
         while (true) {
-            std::string block1 = read_block(path1, block_size, block_num);
-            std::string block2 = read_block(path2, block_size, block_num);
-            std::cout << block1 << " " << block2 << std::endl;
+            std::string block1 = read_block(path1, block_num);
+            std::string block2 = read_block(path2, block_num);
+            // std::cout << block1 << " " << block2 << std::endl;
             if (block1.size() == 0 || block2.size() == 0) {
                 break;
             }
@@ -88,10 +93,14 @@ public:
 
     }
 
+
+
 private:
 
     // kashed data
-    std::map<std::string, std::vector<std::string>> m_data;
+    std::vector<std::vector<std::string>> m_data;
+    std::map<std::string, std::vector<std::string>> m_cash;
+    size_t block_size;
 
 };
 

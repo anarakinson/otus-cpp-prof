@@ -1,5 +1,6 @@
 
 #include <argparse.h>
+#include <comparator.h>
 #include <paths.h>
 #include <utils.h>
 
@@ -20,7 +21,12 @@ namespace fs = std::filesystem;
 
 
 
-void path_loop(const std::vector<std::string> &scan_dirs, std::function<void(fs::directory_entry, fs::directory_entry)> comparator) {
+void path_loop(
+    const std::vector<std::string> &scan_dirs, 
+    std::function<bool(fs::directory_entry, fs::directory_entry)> comparator,
+    std::vector<std::vector<std::string>> &results
+) 
+{
 
     // set to contain already checked paths
     std::set<fs::directory_entry> checked_obj;
@@ -28,18 +34,28 @@ void path_loop(const std::vector<std::string> &scan_dirs, std::function<void(fs:
     for (const std::string &path1 : scan_dirs) {
         for (const auto &obj1 : fs::directory_iterator(path1)) {
             
+            std::vector<std::string> current_results;
+            if (checked_obj.count(obj1) || obj1.is_directory()) {
+                continue;
+            }
+            current_results.emplace_back(obj1.path().string());
+
             for (const std::string &path2 : scan_dirs) {
                 for (const auto &obj2 : fs::directory_iterator(path2)) {
                     if ( 
-                        (obj1.is_directory() || 
-                        obj2.is_directory()) ||
+                        obj2.is_directory() ||
                         obj1.path() == obj2.path() ||
                         checked_obj.count(obj2)
                     ) continue;
-                    comparator(obj1, obj2); 
+                    bool same_files = comparator(obj1, obj2); 
+                    if (same_files) {
+                        current_results.emplace_back(obj2.path().string());
+                        checked_obj.emplace(obj2);
+                    }
                 }
                 checked_obj.emplace(obj1);
             }
+            results.emplace_back(current_results);
         
         }
     }
@@ -73,16 +89,36 @@ int main(int argc, char** argv) {
         exclude_dirs(scan_dirs, vm["exclude"].as<std::vector<std::string>>());
     } 
 
+    // create comparator
+    Comparator comparator{vm["block"].as<size_t>()};
+    std::vector<std::vector<std::string>> results{};
+
+    auto compare = [&](fs::directory_entry a, fs::directory_entry b){ 
+        bool comp = comparator.compare(a.path().string(), b.path().string());
+        // std::string is_or_not = comp ? " == " : " != ";
+        // std::cout << a.path() << is_or_not << b.path() << " " << std::endl; 
+        return comp; 
+    };
+
+
     // go through directories and compare files
     path_loop(
         scan_dirs, 
         // comparator
-        [](fs::directory_entry a, fs::directory_entry b){ 
-            std::cout << a.path() << " " << b.path() << " " << std::endl; 
-            return; 
-        }
+        compare,
+        results
     );
 
+
+    // Display results
+    std::cout << "Results:\n" << std::endl;
+
+    for (auto res : results) {
+        for (auto x : res) {
+            std::cout << x << "\n";
+        }
+        std::cout << std::endl;
+    }
 
     return 0;
 
