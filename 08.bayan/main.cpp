@@ -33,8 +33,9 @@ int main(int argc, char** argv) {
     std::cout << std::endl;
     /*----- *** -----*/
 
-    std::vector<std::string> scan_dirs = vm["scan"].as<std::vector<std::string>>(); 
 
+    /*----- process directory list -----*/
+    std::vector<std::string> scan_dirs = vm["scan"].as<std::vector<std::string>>(); 
 
     // extending directories
     if (vm["depth"].as<bool>() == true) { extend_dirs(scan_dirs); } 
@@ -46,8 +47,10 @@ int main(int argc, char** argv) {
     if (vm.count("exclude")){
         exclude_dirs(scan_dirs, vm["exclude"].as<std::vector<std::string>>());
     } 
+    /*----- *** -----*/
 
 
+    /*----- compare files -----*/
     // vector to store results
     std::vector<std::vector<std::string>> results{};
 
@@ -55,10 +58,12 @@ int main(int argc, char** argv) {
     // stored directory list and size of block
     Comparator comparator{vm["block"].as<size_t>(), scan_dirs};
     // go through directories and compare files
-    comparator.path_loop(results);
+    comparator.path_loop(results); 
+    /*----- *** -----*/
 
 
-    // Display results
+
+    /*----- Display results -----*/
     std::cout << "Results:\n" << std::endl;
 
     for (auto res : results) {
@@ -67,6 +72,7 @@ int main(int argc, char** argv) {
         }
         std::cout << std::endl;
     }
+    /*----- *** -----*/
 
     return 0;
 
