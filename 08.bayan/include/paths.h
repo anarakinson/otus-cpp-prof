@@ -18,6 +18,8 @@ namespace po = boost::program_options;
 namespace fs = std::filesystem;
 
 
+
+// remove duplicated directories
 void clean_dirs(std::vector<std::string> &dirs) {
 
     for (auto it = dirs.begin(); it != dirs.end();) {
@@ -34,7 +36,7 @@ void clean_dirs(std::vector<std::string> &dirs) {
 }
 
 
-
+// add specific directoris to list
 void extend_dirs(std::vector<std::string> &dirs) {
 
     size_t counter = 0;
@@ -58,6 +60,7 @@ void extend_dirs(std::vector<std::string> &dirs) {
 }
 
 
+// compare if two paths are the same
 bool compare_paths(const std::string &path1, const std::string &path2) {
 
     auto path1_split = utils::split_string(path1);
@@ -79,6 +82,7 @@ bool compare_paths(const std::string &path1, const std::string &path2) {
 }
 
 
+// remove specific directoris from list
 void exclude_dirs(std::vector<std::string> &dirs, const std::vector<std::string> &excluded) {
     
     for (const auto &str : excluded) {
