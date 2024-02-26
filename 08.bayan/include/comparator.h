@@ -1,5 +1,6 @@
 #pragma once 
 
+#include <read_block.h>
 #include <utils.h>
 
 #include <boost/program_options.hpp>
@@ -10,54 +11,13 @@
 #include <fstream>
 #include <string>
 #include <set>
+#include <map>
 #include <vector>
 
 
 
 namespace po = boost::program_options;
 namespace fs = std::filesystem;
-
-
-
-// function for reading block from disk
-std::string read_block(const std::string path, size_t block_size, size_t block_number) {
-    
-    std::ifstream file{path};
-
-    // if file didn't open - return empty string;
-    if (!file.is_open()) {
-        return {};
-    }
-    /* ---------------------- */
-    
-    block_number *= block_size;
-    char ch;
-    std::string block{};  // empty string represents block
-    size_t counter = 0;
-
-    // iterate on file char by char
-    while (file.get(ch)) {
-        // if number of block is not reached - do nothing
-        if (counter >= block_number) {
-            block += ch;
-            // when block size is sufficient - return block
-            if (block.size() == block_size) {
-                return block;
-            }
-        }
-        counter++;
-    }
-    // if file is ended - return empty string
-    if (block.size() == 0) {
-        return {};
-    }
-    // if size of block is not sufficient - fill it with \0
-    for (int i = block.size(); i < block_size; ++i) {
-        block += "\\0";
-    }
-    return block;
-
-}
 
 
 
@@ -77,16 +37,16 @@ public:
 
     // if block is in inner cash - load, 
     // else - read from disk
-    std::string read_or_load_block(const std::string path, size_t block_size, size_t block_number) {
+    std::string read_or_load_block(const std::string path, size_t block_number) {
         std::string block;
-        if (current_objects.size() <= block_number) {
+        if (current_objects[path].size() <= block_number) {
             // std::cout << "READ" << std::endl;
-            block = read_block(path, block_size, block_number);
-            current_objects.push_back(block);
+            block = read_method(path, block_size, block_number);
+            current_objects[path].push_back(block);
         } 
         else {
             // std::cout << "LOAD" << std::endl;
-            block = current_objects[block_number];
+            block = current_objects[path][block_number];
         }
         return block;
     } 
@@ -102,8 +62,8 @@ public:
         size_t block_num = 0;
 
         while (true) {
-            std::string block1 = read_or_load_block(path2, block_size, block_num);
-            std::string block2 = read_block(path2, block_size, block_num);
+            std::string block1 = read_or_load_block(path1, block_num);
+            std::string block2 = read_or_load_block(path2, block_num);
             // std::cout << path1 << " " << path2 << " " << std::endl;
             // std::cout << " " << block1 << " " << block2 << std::endl;
             if (block1.size() == 0 || block2.size() == 0) {
@@ -129,7 +89,7 @@ public:
         // temporary result list
         std::vector<std::string> current_results;
         // clear cashed files
-        current_objects.clear();
+        // current_objects.clear();
     
         // if path is not file 
         // or path already checked - pass
@@ -184,6 +144,11 @@ public:
     }
 
 
+    void set_read_method(std::string (*new_method)(const std::string, size_t, size_t)) {
+        read_method = new_method;
+    }
+
+
 
 private:
 
@@ -192,7 +157,10 @@ private:
     size_t block_size;
 
     // cashed data
-    std::vector<std::string> current_objects{};
+    std::map<std::string, std::vector<std::string>> current_objects{};
+
+    // read data method
+    std::string (*read_method)(const std::string, size_t, size_t) = read_block;
 
 };
 
