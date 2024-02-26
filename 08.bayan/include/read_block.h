@@ -43,11 +43,11 @@ std::string read_block(const std::string path, size_t block_size, size_t block_n
         return {};
     }
     // if size of block is not sufficient - fill it with \0
-    for (int i = block.size(); i < block_size; ++i) {
+    for (size_t i = block.size(); i < block_size; ++i) {
         block += "\\0";
     }
 
     // hash and return block
     return block;
-    
+
 }
