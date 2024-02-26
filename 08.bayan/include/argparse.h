@@ -24,13 +24,17 @@ po::variables_map parse_args(int argc, char** argv) {
                 ("depth,d", po::value<bool>()->default_value(0), "Depth of scan: 1-all subdirs, 0-only specified")
                 ("size", po::value<size_t>()->default_value(1), "Minimal size of scanned files (bytes)")
                 ("block", po::value<size_t>()->default_value(4), "Size of block")
-                ("hash", po::value<std::string>()->default_value("md5"), "Type of hashing: md5 or crc32")
+                ("hash", po::value<std::string>()->default_value("md5"), "Type of hashing: md5 or crc32; default is md5")
         ;
 
         po::variables_map vm;
         po::store(parse_command_line(argc, argv, descr), vm);
         po::notify(vm);
 
+        if (vm["hash"].as<std::string>() != "md5" && vm["hash"].as<std::string>() != "crc32") {
+            std::cout << "Unknown hashing type!\n";
+            throw std::exception();
+        }
 
         if (vm.count("help")){
             std::cout << descr << std::endl;
