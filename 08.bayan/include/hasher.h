@@ -31,26 +31,35 @@ public:
         return result.checksum();
     }
 
+    static std::string GetMd5(const std::string &str) {
+        md5 hash;
+        md5::digest_type digest;
 
-    static std::string get_hash(std::string s, std::string hash_method) {
+        hash.process_bytes(str.data(), str.size());
+        hash.get_digest(digest);
+
+        // std::cout << "md5(" << s << ") = " << toString(digest) << '\n';
+
+        return toString(digest);
+    }
+
+
+    static std::string get_hash(const std::string &str, const std::string &hash_method) {
 
         if (hash_method == "md5") {
             
-            md5 hash;
-            md5::digest_type digest;
-
-            hash.process_bytes(s.data(), s.size());
-            hash.get_digest(digest);
-
-            // std::cout << "md5(" << s << ") = " << toString(digest) << '\n';
-    
-            return toString(digest);
+            return GetMd5(str);
             
         }
         else if (hash_method == "crc32") {
 
-            return std::to_string(GetCrc32(s));
+            return std::to_string(GetCrc32(str));
 
+        }
+        else {
+
+            return GetMd5(str);
+       
         }
 
 
