@@ -27,10 +27,12 @@ public:
     Comparator() = delete;
     Comparator(
         size_t block_size,
-        const std::vector<std::string> &scan_dirs 
+        const std::vector<std::string> &scan_dirs,
+        std::string hash_method
     ) : 
         block_size{block_size},
-        scan_dirs{scan_dirs} 
+        scan_dirs{scan_dirs},
+        hash_method{hash_method}
         {}
     ~Comparator() = default;
     
@@ -70,8 +72,8 @@ public:
                 
             /*----- *** HASHING *** -----*/
             // hashing block
-            block1 = Hasher::get_hash(block1);
-            block2 = Hasher::get_hash(block2);
+            block1 = Hasher::get_hash(block1, hash_method);
+            block2 = Hasher::get_hash(block2, hash_method);
             /*----- *** *** *** -----*/
 
             // std::cout << path1 << " " << path2 << " " << std::endl;
@@ -159,9 +161,11 @@ public:
 
 private:
 
-    std::set<fs::directory_entry> checked_obj;
     size_t block_size;
     std::vector<std::string> scan_dirs; 
+    std::string hash_method;
+
+    std::set<fs::directory_entry> checked_obj;
 
     // cashed data
     std::map<std::string, std::vector<std::string>> current_objects{};

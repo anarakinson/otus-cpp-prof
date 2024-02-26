@@ -24,7 +24,7 @@ po::variables_map parse_args(int argc, char** argv) {
                 ("depth,d", po::value<bool>()->default_value(0), "Depth of scan: 1-all subdirs, 0-only specified")
                 ("size", po::value<size_t>()->default_value(1), "Minimal size of scanned files (bytes)")
                 ("block", po::value<size_t>()->default_value(4), "Size of block")
-                ("hash", po::value<std::string>()->default_value("md5"), "Type of hashing")
+                ("hash", po::value<std::string>()->default_value("md5"), "Type of hashing: md5 or crc32")
         ;
 
         po::variables_map vm;

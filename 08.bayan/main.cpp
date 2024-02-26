@@ -56,7 +56,11 @@ int main(int argc, char** argv) {
 
     // create comparator, 
     // stored directory list and size of block
-    Comparator comparator{vm["block"].as<size_t>(), scan_dirs};
+    Comparator comparator{
+        vm["block"].as<size_t>(), 
+        scan_dirs, 
+        vm["hash"].as<std::string>()
+    };
     // go through directories and compare files
     comparator.path_loop(results); 
     /*----- *** -----*/
