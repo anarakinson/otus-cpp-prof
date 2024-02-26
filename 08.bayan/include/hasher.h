@@ -40,4 +40,3 @@ private:
     // md5 hash;
 
 };
-
