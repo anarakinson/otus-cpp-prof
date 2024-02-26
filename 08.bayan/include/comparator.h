@@ -20,7 +20,6 @@ namespace fs = std::filesystem;
 
 
 
-
 std::string read_block(const std::string path, size_t block_size, size_t block_number) {
     
     std::ifstream file{path};
@@ -79,7 +78,24 @@ public:
     ~Comparator() = default;
     
 
+    // if block is in inner cash - load, 
+    // else - read from disk
+    std::string read_or_load_block(const std::string path, size_t block_size, size_t block_number) {
+        std::string block;
+        if (current_objects.size() <= block_number) {
+            // std::cout << "READ" << std::endl;
+            block = read_block(path, block_size, block_number);
+            current_objects.push_back(block);
+        } 
+        else {
+            // std::cout << "LOAD" << std::endl;
+            block = current_objects[block_number];
+        }
+        return block;
+    } 
 
+
+    // compare two files
     bool compare(const std::string path1, const std::string path2) {
         
         if (fs::file_size(path1) != fs::file_size(path2)) {
@@ -89,9 +105,10 @@ public:
         size_t block_num = 0;
 
         while (true) {
-            std::string block1 = read_block(path1, block_size, block_num);
+            std::string block1 = read_or_load_block(path2, block_size, block_num);
             std::string block2 = read_block(path2, block_size, block_num);
-            // std::cout << block1 << " " << block2 << std::endl;
+            // std::cout << path1 << " " << path2 << " " << std::endl;
+            // std::cout << " " << block1 << " " << block2 << std::endl;
             if (block1.size() == 0 || block2.size() == 0) {
                 break;
             }
@@ -114,6 +131,8 @@ public:
     {
         // temporary result list
         std::vector<std::string> current_results;
+        // clear cashed files
+        current_objects.clear();
     
         // if path is not file 
         // or path already checked - pass
@@ -151,12 +170,10 @@ public:
     }
 
 
-
     void path_loop(
         std::vector<std::vector<std::string>> &results
     ) 
     {
-
         // set to contain already checked paths
         checked_obj.clear();
         
@@ -167,9 +184,7 @@ public:
 
             }
         }
-
     }
-
 
 
 
@@ -178,9 +193,10 @@ private:
 
     std::set<fs::directory_entry> checked_obj;
     std::vector<std::string> scan_dirs; 
-
-    // cashed data
-    std::map<std::string, std::vector<std::string>> m_cash;
     size_t block_size;
 
+    // cashed data
+    std::vector<std::string> current_objects{};
+
 };
+
