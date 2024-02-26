@@ -19,7 +19,7 @@ namespace fs = std::filesystem;
 
 
 
-
+// function for reading block from disk
 std::string read_block(const std::string path, size_t block_size, size_t block_number) {
     
     std::ifstream file{path};
@@ -58,9 +58,6 @@ std::string read_block(const std::string path, size_t block_size, size_t block_n
     return block;
 
 }
-
-
-
 
 
 
@@ -185,7 +182,6 @@ public:
             }
         }
     }
-
 
 
 
