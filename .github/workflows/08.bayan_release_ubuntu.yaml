@@ -25,7 +25,7 @@ jobs:
       - name: Install requirements
         working-directory: ./08.bayan/ 
         run: |
-             sudo apt-get update && sudo apt-get install cmake -y 
+             sudo apt-get update && sudo apt-get install cmake boost -y 
       ### Build ###
       - name: Build 08.bayan
         working-directory: ./08.bayan/
