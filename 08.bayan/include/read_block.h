@@ -1,5 +1,7 @@
 #pragma once 
 
+#include <hasher.h>
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -44,6 +46,8 @@ std::string read_block(const std::string path, size_t block_size, size_t block_n
     for (int i = block.size(); i < block_size; ++i) {
         block += "\\0";
     }
-    return block;
 
+    // hash and return block
+    return block;
+    
 }

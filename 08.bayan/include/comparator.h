@@ -64,11 +64,18 @@ public:
         while (true) {
             std::string block1 = read_or_load_block(path1, block_num);
             std::string block2 = read_or_load_block(path2, block_num);
-            // std::cout << path1 << " " << path2 << " " << std::endl;
-            // std::cout << " " << block1 << " " << block2 << std::endl;
             if (block1.size() == 0 || block2.size() == 0) {
                 break;
             }
+                
+            /*----- *** HASHING *** -----*/
+            // hashing block
+            block1 = Hasher::get_hash(block1);
+            block2 = Hasher::get_hash(block2);
+            /*----- *** *** *** -----*/
+
+            // std::cout << path1 << " " << path2 << " " << std::endl;
+            // std::cout << " " << block1 << " " << block2 << std::endl;
 
             if (block1 != block2) {
                 return false;
