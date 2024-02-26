@@ -162,9 +162,5 @@ private:
     // read data method
     std::string (*read_method)(const std::string, size_t, size_t) = read_block;
 
-    // hash method
-    std::size_t h1 = std::hash<std::string>{}("MyString");
-
-
 };
 
