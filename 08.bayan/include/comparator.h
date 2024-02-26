@@ -160,8 +160,8 @@ public:
 private:
 
     std::set<fs::directory_entry> checked_obj;
-    std::vector<std::string> scan_dirs; 
     size_t block_size;
+    std::vector<std::string> scan_dirs; 
 
     // cashed data
     std::map<std::string, std::vector<std::string>> current_objects{};
