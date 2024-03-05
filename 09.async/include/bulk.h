@@ -91,9 +91,11 @@ private:
 
     // notification for loggers
     void notify() {
+        
+        iLogger::update_queue(m_lines);
 
         for (auto logger : m_loggers) {
-            logger->print_lines();
+            logger->print_lines(this);
         }
         m_lines.clear();
 

@@ -68,14 +68,14 @@ public:
         m_bulk = new Bulk{N};
 
         // create loggers
-        ConsoleLogger *c_logger = new ConsoleLogger{};
-        FileLogger *f_logger1 = new FileLogger{};
-        FileLogger *f_logger2 = new FileLogger{};
+        static ConsoleLogger c_logger = ConsoleLogger{};
+        static FileLogger f_logger1 = FileLogger{};
+        static FileLogger f_logger2 = FileLogger{};
 
         // attach loggers to bulk to notify them
-        m_bulk->attach(c_logger);
-        m_bulk->attach(f_logger1);
-        m_bulk->attach(f_logger2);
+        m_bulk->attach(&c_logger);
+        m_bulk->attach(&f_logger1);
+        m_bulk->attach(&f_logger2);
 
     } 
 

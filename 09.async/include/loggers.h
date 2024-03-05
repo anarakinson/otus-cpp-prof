@@ -2,6 +2,7 @@
 
 #include <abstract_logger.h>
 #include <bulk.h>
+// #include <lockfree_queue.h>
 
 #include <iostream>
 #include <fstream>
@@ -16,7 +17,7 @@ class ConsoleLogger : public iLogger {
 public:
 
     // display to console
-    void print_lines() override {
+    void print_lines(Bulk *m_owner) override {
         
         std::vector<std::string> lines = m_owner->get_current_lines();
         std::cout << "bulk: "; 
@@ -34,9 +35,11 @@ class FileLogger : public iLogger {
 public:
 
     // write to file
-    void print_lines() override {
+    void print_lines(Bulk *m_owner) override {
 
-        std::vector<std::string> lines = m_owner->get_current_lines();
+        // std::vector<std::string> lines = m_owner->get_current_lines();
+        if (m_queue.size() == 0) return;
+        std::vector<std::string> lines = m_queue.pop();
         std::ofstream new_file{};
         new_file.open("./logs/" + m_owner->get_current_filename() + "-" + Utils::id_to_string() + "-" + std::to_string(m_counter++) + ".log");
         new_file << "bulk: "; 
@@ -48,6 +51,12 @@ public:
         // std::cout << "FILE LOG" << std::endl;
 
     }
+
+
+    static void update_queue(const std::vector<std::string> &lines) {
+        m_queue.push(lines);
+    }
+
 
 private: 
     inline static int m_counter = 0;
