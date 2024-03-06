@@ -1,13 +1,14 @@
 #pragma once 
 
 #include <abstract_logger.h>
-#include <bulk.h>
+// #include <bulk.h>
 // #include <lockfree_queue.h>
 
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
+// #include <pair>
 
 #define UNUSED(var) (void)(var)
 
@@ -19,7 +20,13 @@ public:
     // display to console
     void print_lines(Bulk *m_owner) override {
         
-        std::vector<std::string> lines = m_owner->get_current_lines();
+        // std::vector<std::string> lines = m_owner->get_current_lines();
+        if (m_queue->size() == 0) return;
+
+        std::pair<std::vector<std::string>, std::string> el = m_queue->pop();
+        std::vector<std::string> lines = el.first;
+        std::string filename = el.second;
+
         std::cout << "bulk: "; 
         for (auto l : lines) {
             std::cout << l << " ";
@@ -27,6 +34,8 @@ public:
         std::cout << std::endl;
 
     }
+
+private: 
 
 };
 
@@ -38,10 +47,14 @@ public:
     void print_lines(Bulk *m_owner) override {
 
         // std::vector<std::string> lines = m_owner->get_current_lines();
-        if (m_queue.size() == 0) return;
-        std::vector<std::string> lines = m_queue.pop();
+        if (m_queue->size() == 0) return;
+
+        std::pair<std::vector<std::string>, std::string> el = m_queue->pop();
+        std::vector<std::string> lines = el.first;
+        std::string filename = el.second;
+
         std::ofstream new_file{};
-        new_file.open("./logs/" + m_owner->get_current_filename() + "-" + Utils::id_to_string() + "-" + std::to_string(m_counter++) + ".log");
+        new_file.open("./logs/" + filename + "-" + Utils::id_to_string() + "-" + std::to_string(m_counter++) + ".log");
         new_file << "bulk: "; 
         for (auto l : lines) {
             new_file << l << " ";
@@ -51,12 +64,6 @@ public:
         // std::cout << "FILE LOG" << std::endl;
 
     }
-
-
-    static void update_queue(const std::vector<std::string> &lines) {
-        m_queue.push(lines);
-    }
-
 
 private: 
     inline static int m_counter = 0;

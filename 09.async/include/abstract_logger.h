@@ -19,8 +19,8 @@ public:
     // attach logger to some bulk exemplar
     void subscribe(Bulk *bulk) { m_owner = bulk; }
 
-    static void update_queue(const std::vector<std::string> &lines) {
-        m_queue.push(lines);
+    void attach_queue(LockFreeQueue<std::pair<std::vector<std::string>, std::string>> *queue) {
+        m_queue = queue;
     }
 
 protected:
@@ -30,6 +30,6 @@ protected:
     inline static std::condition_variable_any m_cv{};
     inline static std::mutex m_mutex{};
 
-    inline static LockFreeQueue<std::vector<std::string>> m_queue{};
+    LockFreeQueue<std::pair<std::vector<std::string>, std::string>> *m_queue;
 
 };

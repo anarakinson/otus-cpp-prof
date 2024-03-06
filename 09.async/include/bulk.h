@@ -2,6 +2,8 @@
 
 #include <utils.h>
 #include <abstract_logger.h>
+#include <loggers.h>
+#include <lockfree_queue.h>
 
 #include <iostream>
 #include <filesystem>
@@ -77,6 +79,11 @@ public:
         m_loggers.push_back(logger);
     }
 
+    // attaching loggers to bulk exemplar
+    void attach_queue(LockFreeQueue<std::pair<std::vector<std::string>, std::string>> *queue) {
+        m_queues.push_back(queue);
+    }
+
 
 private:
     size_t m_n;
@@ -87,12 +94,17 @@ private:
     std::vector<std::string> m_lines;
 
     std::vector<iLogger*> m_loggers;
+    std::vector<LockFreeQueue<std::pair<std::vector<std::string>, std::string>>*> m_queues;
 
 
     // notification for loggers
     void notify() {
-        
-        iLogger::update_queue(m_lines);
+
+        // FileLogger::update_queue(std::make_pair(m_lines, get_current_filename()));
+        // ConsoleLogger::update_queue(std::make_pair(m_lines, get_current_filename()));
+        for (auto queue : m_queues) {
+            queue->push(std::make_pair(m_lines, get_current_filename()));
+        }
 
         for (auto logger : m_loggers) {
             logger->print_lines(this);

@@ -72,7 +72,18 @@ public:
         static FileLogger f_logger1 = FileLogger{};
         static FileLogger f_logger2 = FileLogger{};
 
+        static LockFreeQueue<std::pair<std::vector<std::string>, std::string>> file_queue{};
+        static LockFreeQueue<std::pair<std::vector<std::string>, std::string>> console_queue{};
+
+        // attach queues
+        c_logger.attach_queue(&console_queue);
+        f_logger1.attach_queue(&file_queue);
+        f_logger2.attach_queue(&file_queue);
+
         // attach loggers to bulk to notify them
+        m_bulk->attach_queue(&console_queue);
+        m_bulk->attach_queue(&file_queue);
+        
         m_bulk->attach(&c_logger);
         m_bulk->attach(&f_logger1);
         m_bulk->attach(&f_logger2);

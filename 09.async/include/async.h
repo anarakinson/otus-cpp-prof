@@ -3,6 +3,7 @@
 
 #include <bulk.h>
 #include <loggers.h>
+#include <lockfree_queue.h>
 
 #include <iostream>
 #include <string>
