@@ -12,8 +12,6 @@
 #define UNUSED(var) (void)(var)
 
 
-using pair_Lines_and_Name = std::pair<std::vector<std::string>, std::string>;
-
 
 class ConsoleLogger : public iLogger {
 public:
@@ -21,10 +19,9 @@ public:
     // display to console
     void print_lines() override {
         
-        // std::vector<std::string> lines = m_owner->get_current_lines();
         if (m_queue->size() == 0) return;
 
-        pair_Lines_and_Name el = m_queue->pop();
+        Utils::pair_Lines_and_Name el = m_queue->pop();
         std::vector<std::string> lines = el.first;
         std::string filename = el.second;
 
@@ -47,10 +44,9 @@ public:
     // write to file
     void print_lines() override {
 
-        // std::vector<std::string> lines = m_owner->get_current_lines();
         if (m_queue->size() == 0) return;
 
-        pair_Lines_and_Name el = m_queue->pop();
+        Utils::pair_Lines_and_Name el = m_queue->pop();
         std::vector<std::string> lines = el.first;
         std::string filename = el.second;
 

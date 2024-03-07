@@ -2,46 +2,6 @@
 #include <async.h>
 
 
-// async::handle_t async::connect(std::size_t N) {    
-
-//     // Create bulk
-//     auto bulk = new Bulk{N};
-
-//     // create loggers
-//     ConsoleLogger *c_logger = new ConsoleLogger{};
-//     FileLogger *f_logger = new FileLogger{};
-
-//     // attach loggers to bulk to notify them
-//     bulk->attach(c_logger);
-//     bulk->attach(f_logger);
-
-//     return bulk;
-
-// }
-
-
-// void async::receive(async::handle_t handle, const char *data, std::size_t size) {
-
-//     char ch;
-//     for (int i = 0; i < size; ++i) {
-//         ch = data[i];
-//         static_cast<Bulk*>(handle)->update_line(ch);
-
-//     }
-
-// }
-
-
-// void async::disconnect(handle_t handle) {
-
-//     static_cast<Bulk*>(handle)->finish_processing();
-
-// }
-
-
-
-
-
 
 class async::iHandler {
 public:
@@ -59,35 +19,25 @@ private:
 };
 
 
-
 class async::BulkHandler : public async::iHandler {
 public:
-    BulkHandler(size_t N) {
-        
+    BulkHandler(
+        size_t N, 
+        std::vector<iLogger*> loggers, 
+        std::vector<LockFreeQueue<Utils::pair_Lines_and_Name>*> queues
+    ) {
+    
         // Create bulk
         m_bulk = new Bulk{N};
 
-        // create loggers
-        static ConsoleLogger c_logger = ConsoleLogger{};
-        static FileLogger f_logger1 = FileLogger{};
-        static FileLogger f_logger2 = FileLogger{};
-
-        static LockFreeQueue<std::pair<std::vector<std::string>, std::string>> file_queue{};
-        static LockFreeQueue<std::pair<std::vector<std::string>, std::string>> console_queue{};
-
-        // attach queues
-        c_logger.attach_queue(&console_queue);
-        f_logger1.attach_queue(&file_queue);
-        f_logger2.attach_queue(&file_queue);
-
-        // attach loggers to bulk to notify them
-        m_bulk->attach_queue(&console_queue);
-        m_bulk->attach_queue(&file_queue);
+        // attach loggers and queues to bulk for notifying them
+        for (auto queue : queues) {
+            m_bulk->attach_queue(queue);
+        }
+        for (auto logger : loggers) {
+            m_bulk->attach(logger);
+        }
         
-        m_bulk->attach(&c_logger);
-        m_bulk->attach(&f_logger1);
-        m_bulk->attach(&f_logger2);
-
     } 
 
     void update(char ch) {
@@ -98,6 +48,7 @@ public:
         m_bulk->finish_processing();
     }
 
+
 private:
     Bulk *m_bulk;
 
@@ -106,9 +57,13 @@ private:
 
 
 
-async::handle_t async::connect(std::size_t N) {    
+async::handle_t async::connect(
+    std::size_t N, 
+    std::vector<iLogger*> loggers, 
+    std::vector<LockFreeQueue<Utils::pair_Lines_and_Name>*> queues
+) {    
 
-    auto handler = new BulkHandler{N};
+    auto handler = new BulkHandler{N, loggers, queues};
 
     return handler;
 
@@ -130,6 +85,7 @@ void async::receive(async::handle_t handle, const char *data, std::size_t size) 
 void async::disconnect(handle_t handle) {
 
     static_cast<iHandler*>(handle)->finish();
+    delete handle;
 
 }
 

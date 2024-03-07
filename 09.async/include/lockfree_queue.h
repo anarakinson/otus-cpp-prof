@@ -1,5 +1,6 @@
 #pragma once 
 
+#include <iostream> 
 #include <queue> 
 #include <mutex> 
 
@@ -24,7 +25,7 @@ public:
         return m_queue.front();
     }
 
-    size_t size() { return m_queue.size(); }
+    std::atomic<size_t> size() { return m_queue.size(); }
 
 private:
     std::queue<T> m_queue;

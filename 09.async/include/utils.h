@@ -10,6 +10,8 @@
 
 namespace Utils {
 
+    // convenient form for inscriptions
+    using pair_Lines_and_Name = std::pair<std::vector<std::string>, std::string>;
 
     // parse args and return size of block
     inline size_t get_args(int argc, char **argv) {

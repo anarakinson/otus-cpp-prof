@@ -13,8 +13,6 @@
 
 
 
-using pair_Lines_and_Name = std::pair<std::vector<std::string>, std::string>;
-
 class Bulk {
 public:
     Bulk(size_t N): m_n{N} {}
@@ -48,6 +46,7 @@ public:
     void finish_processing() {
         if (m_braces == 0 && m_lines.size() > 0){
             notify();
+            stop();
         }
     }
 
@@ -75,14 +74,22 @@ public:
     }
 
 
+    void stop() {
+        for (auto l : m_loggers) {
+            l->flag_stop();
+            // std::cout << "STOP\n";
+        }
+    }
+
+
     // attaching loggers to bulk exemplar
     void attach(iLogger *logger) {
-        logger->subscribe(this);
+        // logger->subscribe(this);
         m_loggers.push_back(logger);
     }
 
     // attaching loggers to bulk exemplar
-    void attach_queue(LockFreeQueue<pair_Lines_and_Name> *queue) {
+    void attach_queue(LockFreeQueue<Utils::pair_Lines_and_Name> *queue) {
         m_queues.push_back(queue);
     }
 
@@ -96,20 +103,14 @@ private:
     std::vector<std::string> m_lines;
 
     std::vector<iLogger*> m_loggers;
-    std::vector<LockFreeQueue<pair_Lines_and_Name>*> m_queues;
+    std::vector<LockFreeQueue<Utils::pair_Lines_and_Name>*> m_queues;
 
 
     // notification for loggers
     void notify() {
 
-        // FileLogger::update_queue(std::make_pair(m_lines, get_current_filename()));
-        // ConsoleLogger::update_queue(std::make_pair(m_lines, get_current_filename()));
         for (auto queue : m_queues) {
             queue->push(std::make_pair(m_lines, get_current_filename()));
-        }
-
-        for (auto logger : m_loggers) {
-            logger->print_lines();
         }
         m_lines.clear();
 
@@ -122,12 +123,5 @@ private:
         // else - return moment of start sequence
         return m_filename != "" ? m_filename : Utils::get_filename();
     }
-    std::vector<std::string> get_current_lines() {
-        return m_lines;
-    }
-
-    // get friends to acces private data
-    friend class ConsoleLogger;
-    friend class FileLogger;
 
 };
