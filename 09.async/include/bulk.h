@@ -13,6 +13,8 @@
 
 
 
+using pair_Lines_and_Name = std::pair<std::vector<std::string>, std::string>;
+
 class Bulk {
 public:
     Bulk(size_t N): m_n{N} {}
@@ -80,7 +82,7 @@ public:
     }
 
     // attaching loggers to bulk exemplar
-    void attach_queue(LockFreeQueue<std::pair<std::vector<std::string>, std::string>> *queue) {
+    void attach_queue(LockFreeQueue<pair_Lines_and_Name> *queue) {
         m_queues.push_back(queue);
     }
 
@@ -94,7 +96,7 @@ private:
     std::vector<std::string> m_lines;
 
     std::vector<iLogger*> m_loggers;
-    std::vector<LockFreeQueue<std::pair<std::vector<std::string>, std::string>>*> m_queues;
+    std::vector<LockFreeQueue<pair_Lines_and_Name>*> m_queues;
 
 
     // notification for loggers
@@ -107,7 +109,7 @@ private:
         }
 
         for (auto logger : m_loggers) {
-            logger->print_lines(this);
+            logger->print_lines();
         }
         m_lines.clear();
 

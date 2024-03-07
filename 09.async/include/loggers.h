@@ -8,22 +8,23 @@
 #include <fstream>
 #include <vector>
 #include <string>
-// #include <pair>
 
 #define UNUSED(var) (void)(var)
 
+
+using pair_Lines_and_Name = std::pair<std::vector<std::string>, std::string>;
 
 
 class ConsoleLogger : public iLogger {
 public:
 
     // display to console
-    void print_lines(Bulk *m_owner) override {
+    void print_lines() override {
         
         // std::vector<std::string> lines = m_owner->get_current_lines();
         if (m_queue->size() == 0) return;
 
-        std::pair<std::vector<std::string>, std::string> el = m_queue->pop();
+        pair_Lines_and_Name el = m_queue->pop();
         std::vector<std::string> lines = el.first;
         std::string filename = el.second;
 
@@ -44,12 +45,12 @@ class FileLogger : public iLogger {
 public:
 
     // write to file
-    void print_lines(Bulk *m_owner) override {
+    void print_lines() override {
 
         // std::vector<std::string> lines = m_owner->get_current_lines();
         if (m_queue->size() == 0) return;
 
-        std::pair<std::vector<std::string>, std::string> el = m_queue->pop();
+        pair_Lines_and_Name el = m_queue->pop();
         std::vector<std::string> lines = el.first;
         std::string filename = el.second;
 
