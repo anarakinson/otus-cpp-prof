@@ -43,11 +43,11 @@ public:
     }
 
 
-    void finish_processing() {
-        if (m_braces == 0 && m_lines.size() > 0){
+    void finish_processing() {    
+        if (m_braces == 0 && m_lines.size() > 0){    
             notify();
-            stop();
         }
+        stop();
     }
 
 

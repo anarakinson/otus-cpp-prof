@@ -78,7 +78,6 @@ void async::receive(async::handle_t handle, const char *data, std::size_t size) 
     for (int i = 0; i < size; ++i) {
         ch = data[i];
         static_cast<iHandler*>(handle)->update(ch);
-
     }
 
 }
