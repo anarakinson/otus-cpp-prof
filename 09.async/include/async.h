@@ -15,7 +15,7 @@ namespace async {
 
     using handle_t = void *;
 
-    handle_t connect();
+    handle_t connect(std::size_t N);
     handle_t connect(
         std::size_t, 
         std::vector<iLogger*>, 

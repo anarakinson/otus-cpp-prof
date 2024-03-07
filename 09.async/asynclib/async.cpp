@@ -40,6 +40,8 @@ public:
         
     } 
 
+    ~BulkHandler() {}
+
     void update(char ch) {
         m_bulk->update_line(ch);
     }
