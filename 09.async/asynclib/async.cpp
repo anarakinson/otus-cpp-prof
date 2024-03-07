@@ -21,20 +21,16 @@ private:
 
 class async::BulkHandler : public async::iHandler {
 public:
-    BulkHandler(
-        size_t N, 
-        std::vector<iLogger*> loggers, 
-        std::vector<LockFreeQueue<Utils::pair_Lines_and_Name>*> queues
-    ) {
+    BulkHandler(size_t N) {
     
         // Create bulk
         m_bulk = new Bulk{N};
 
         // attach loggers and queues to bulk for notifying them
-        for (auto queue : queues) {
+        for (auto queue : singletone.queues()) {
             m_bulk->attach_queue(queue);
         }
-        for (auto logger : loggers) {
+        for (auto logger : singletone.loggers()) {
             m_bulk->attach(logger);
         }
         
@@ -54,18 +50,15 @@ public:
 private:
     Bulk *m_bulk;
 
+    static inline ThreadManager singletone{};
+
 };
 
 
 
+async::handle_t async::connect(std::size_t N) {    
 
-async::handle_t async::connect(
-    std::size_t N, 
-    std::vector<iLogger*> loggers, 
-    std::vector<LockFreeQueue<Utils::pair_Lines_and_Name>*> queues
-) {    
-
-    auto handler = new BulkHandler{N, loggers, queues};
+    auto handler = new BulkHandler{N};
 
     return handler;
 
@@ -73,7 +66,7 @@ async::handle_t async::connect(
 
 
 void async::receive(async::handle_t handle, const char *data, std::size_t size) {
-
+    
     char ch;
     for (int i = 0; i < size; ++i) {
         ch = data[i];
