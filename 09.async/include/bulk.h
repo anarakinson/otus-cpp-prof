@@ -35,7 +35,7 @@ public:
 
     // get new char
     void update_line(char ch) {
-        if (ch == '\n') {
+        if (ch == '\n' || ch == '\0') {
             process_line();
             m_line = "";
         }
@@ -108,6 +108,8 @@ private:
 
     // notification for loggers
     void notify() {
+
+        std::cout << "NOTIFY " << m_queues.size() << std::endl;
 
         for (auto queue : m_queues) {
             queue->push(std::make_pair(m_lines, get_current_filename()));

@@ -19,14 +19,6 @@ add_executable(
     bulk 
     main.cpp 
 )
-add_executable(
-    bulk_server
-    src/server.cpp 
-)
-add_executable(
-    client
-    src/client.cpp 
-)
 
 add_library(
     asynclib 
@@ -36,18 +28,6 @@ add_library(
 
 set_target_properties(
     bulk asynclib
-    PROPERTIES 
-    CXX_STANDARD 20
-    CXX_STANDARD_REQUIRED ON
-)
-set_target_properties(
-    bulk_server asynclib
-    PROPERTIES 
-    CXX_STANDARD 20
-    CXX_STANDARD_REQUIRED ON
-)
-set_target_properties(
-    client asynclib
     PROPERTIES 
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
@@ -64,16 +44,6 @@ target_link_libraries(
     asynclib 
     ${Boost_LIBRARIES}
 )
-target_link_libraries(
-    bulk_server 
-    PRIVATE 
-    asynclib 
-    ${Boost_LIBRARIES}
-)
-target_link_libraries(
-    client
-    ${Boost_LIBRARIES}
-)
 
 # set compile options
 if (MSVC)
@@ -81,12 +51,6 @@ if (MSVC)
         # /W4
     )
     target_compile_options(asynclib PRIVATE
-        # /W4
-    )
-    target_compile_options(client PRIVATE
-        # /W4
-    )
-    target_compile_options(bulk_server PRIVATE
         # /W4
     )
 
@@ -103,24 +67,12 @@ else ()
         -pedantic 
         -Werror
     )
-    target_compile_options(client PRIVATE
-        # -Wall 
-        -Wextra 
-        -pedantic 
-        -Werror
-    )
-    target_compile_options(bulk_server PRIVATE
-        # -Wall 
-        -Wextra 
-        -pedantic 
-        -Werror
-    )
 endif()
 
 
 
 ### Deb pkg release ###
-install(TARGETS bulk bulk_server client RUNTIME DESTINATION bin)
+install(TARGETS bulk RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
