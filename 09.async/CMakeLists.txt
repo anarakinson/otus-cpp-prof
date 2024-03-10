@@ -8,9 +8,20 @@ set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 project(bulk VERSION ${PROJECT_VERSION})
 
 
+### find boost
+# find_package(Boost COMPONENTS program_options REQUIRED)
+find_package(Boost COMPONENTS system program_options REQUIRED)
+find_package(Threads)
+
+
+######################
 add_executable(
     bulk 
     main.cpp 
+)
+add_executable(
+    client
+    src/client.cpp 
 )
 
 add_library(
@@ -25,17 +36,28 @@ set_target_properties(
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
 )
+set_target_properties(
+    client asynclib
+    PROPERTIES 
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED ON
+)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
+    ${Boost_INCLUDE_DIR}
 )
 
 target_link_libraries(
     bulk 
     PRIVATE 
     asynclib 
+    ${Boost_LIBRARIES}
 )
-
+target_link_libraries(
+    client
+    ${Boost_LIBRARIES}
+)
 
 # set compile options
 if (MSVC)
@@ -43,6 +65,9 @@ if (MSVC)
         # /W4
     )
     target_compile_options(asynclib PRIVATE
+        # /W4
+    )
+    target_compile_options(client PRIVATE
         # /W4
     )
 
@@ -54,6 +79,12 @@ else ()
         -Werror
     )
     target_compile_options(asynclib PRIVATE
+        # -Wall 
+        -Wextra 
+        -pedantic 
+        -Werror
+    )
+    target_compile_options(client PRIVATE
         # -Wall 
         -Wextra 
         -pedantic 

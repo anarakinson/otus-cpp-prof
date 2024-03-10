@@ -3,6 +3,8 @@
 #include <utils.h>
 #include <bulk.h>
 #include <loggers.h>
+#include <server.h>
+
 
 #include <iostream>
 #include <filesystem>
