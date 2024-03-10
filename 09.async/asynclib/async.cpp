@@ -68,7 +68,7 @@ async::handle_t async::connect(std::size_t N) {
 void async::receive(async::handle_t handle, const char *data, std::size_t size) {
     
     char ch;
-    for (int i = 0; i < size; ++i) {
+    for (size_t i = 0; i < size; ++i) {
         ch = data[i];
         static_cast<iHandler*>(handle)->update(ch);
     }
