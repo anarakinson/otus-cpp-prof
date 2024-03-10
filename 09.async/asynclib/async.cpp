@@ -79,7 +79,7 @@ void async::receive(async::handle_t handle, const char *data, std::size_t size) 
 void async::disconnect(handle_t handle) {
 
     static_cast<iHandler*>(handle)->finish();
-    delete handle;
+    delete static_cast<iHandler*>(handle);
 
 }
 
