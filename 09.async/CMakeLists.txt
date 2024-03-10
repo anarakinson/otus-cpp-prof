@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 ### set version
-set(PATCH_VERSION "1" CACHE INTERNAL "Bulk")
+set(PATCH_VERSION "2" CACHE INTERNAL "Bulk")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 ### start project
