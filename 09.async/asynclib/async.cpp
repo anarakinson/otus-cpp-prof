@@ -36,7 +36,7 @@ public:
         
     } 
 
-    ~BulkHandler() {}
+    ~BulkHandler() { delete m_bulk; }
 
     void update(char ch) {
         m_bulk->update_line(ch);
