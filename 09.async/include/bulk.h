@@ -109,12 +109,12 @@ private:
     // notification for loggers
     void notify() {
 
-        // std::cout << "NOTIFY " << m_queues.size() << std::endl;
-        iLogger::notify_one();
         for (auto queue : m_queues) {
             queue->push(std::make_pair(m_lines, get_current_filename()));
         }
         m_lines.clear();
+        iLogger::notify_one();
+        // std::cout << "NOTIFY " << m_queues.size() << std::endl;
 
     }
 

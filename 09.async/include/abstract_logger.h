@@ -57,6 +57,6 @@ protected:
     // for threading
     std::atomic<bool> m_flag_stop = false;
     inline static std::condition_variable_any m_cv{};
-    std::mutex m_mutex{};
+    inline static std::mutex m_mutex{};
 
 };
