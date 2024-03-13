@@ -29,6 +29,7 @@ public:
 
             // loggers logic 
             print_lines();
+            notify_one();
 
         }
     }
@@ -46,12 +47,16 @@ public:
 
     void flag_stop() { m_flag_stop = true; }
 
+    static void notify_one() {
+        m_cv.notify_one();
+    }
+
 protected:
     LockFreeQueue<Utils::pair_Lines_and_Name> *m_queue;
 
     // for threading
     std::atomic<bool> m_flag_stop = false;
-    std::condition_variable_any m_cv{};
-    inline static std::mutex m_mutex{};
+    inline static std::condition_variable_any m_cv{};
+    std::mutex m_mutex{};
 
 };

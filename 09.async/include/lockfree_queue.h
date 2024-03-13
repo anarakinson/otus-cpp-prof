@@ -29,7 +29,7 @@ public:
 
 private:
     std::queue<T> m_queue;
-    mutable std::mutex m_mutex;
+    std::mutex m_mutex;
 
 };
 

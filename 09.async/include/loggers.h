@@ -58,7 +58,10 @@ public:
         }
         new_file << std::endl;
         new_file.close();
-        // std::cout << "FILE LOG" << std::endl;
+
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(1us);
+        std::cout << "FILE LOG " << std::this_thread::get_id() << std::endl;
 
     }
 
