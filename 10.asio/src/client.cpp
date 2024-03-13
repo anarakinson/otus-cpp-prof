@@ -22,8 +22,8 @@ public:
 
     }
 
-    void notify(const std::string message) {
-
+    void notify(const std::string &message) {
+        
         // std::cout << message << std::endl;
         asio::write(m_socket, asio::buffer(message));
         size_t len = m_socket.read_some(
@@ -63,7 +63,8 @@ int main(int argc, char **argv) {
 
         std::string line;
         while (std::getline(std::cin, line)) {
-                notifier.notify(line);
+            if (line == "") { continue; }
+            notifier.notify(line);
         }
 
     } catch (std::exception ex) {

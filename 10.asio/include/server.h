@@ -20,7 +20,10 @@ using boost::asio::ip::tcp;
 class Session : public std::enable_shared_from_this<Session> {
 public: 
     Session(tcp::socket socket) : m_socket{std::move(socket)} {}
-    ~Session() { async::disconnect(m_h); }
+    ~Session() { 
+        std::cout << "[!] End of session\n\n";
+        async::disconnect(m_h); 
+    }
 
     void start(size_t N) {
         // std::cout << "session start" << std::endl;
@@ -43,6 +46,7 @@ private:
                     std::cout << "receive: " << length << " >>> " << std::string(m_data, length) << std::endl;
                     auto string = std::string(m_data, length) + '\n';
                     async::receive(m_h, string.c_str(), string.size());
+                    if (string == "eof\n") return;
                     do_write(length);
                 }
             }

@@ -25,13 +25,12 @@ public:
 
             // std::cout << "Logger wait...\n";
             std::unique_lock<std::mutex> guard{m_mutex};
-            if (m_flag_stop && (m_queue->size() == 0)) break;
+            if (m_flag_stop && (m_queue->size() == 0)) { break; }
             m_cv.wait(guard, [&]() { return !(m_queue->size() == 0); });
 
             // std::cout << "Logger WORK\n"; 
             // loggers logic 
             print_lines();
-            // notify_one();
 
         }
     }

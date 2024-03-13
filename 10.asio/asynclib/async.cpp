@@ -24,7 +24,7 @@ public:
     BulkHandler(size_t N) {
     
         // Create bulk
-        m_bulk = new Bulk{N};
+        m_bulk = std::make_unique<Bulk>(Bulk{N});
 
         // attach loggers and queues to bulk for notifying them
         for (auto queue : singletone.queues()) {
@@ -48,7 +48,7 @@ public:
 
 
 private:
-    Bulk *m_bulk;
+    std::unique_ptr<Bulk> m_bulk;
 
     static inline ThreadManager singletone{};
 

@@ -16,6 +16,7 @@
 class Bulk {
 public:
     Bulk(size_t N): m_n{N} {}
+    ~Bulk() {}
 
     // main loop - get lines from std::cin and store in inner vector
     // if vector full - print lines and clear vector
@@ -76,9 +77,9 @@ public:
 
     void stop() {
         for (auto l : m_loggers) {
-            l->flag_stop();
-            std::cout << "STOP\n";
+            // l->flag_stop();
         }
+        iLogger::notify_all();
     }
 
 
