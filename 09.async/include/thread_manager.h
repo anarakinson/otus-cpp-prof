@@ -14,8 +14,6 @@
 class ThreadManager {
 public:
     ThreadManager() {
-        
-        std::cout << "thread\n";
 
         m_loggers.push_back(&c_logger);
         m_loggers.push_back(&f_logger1);

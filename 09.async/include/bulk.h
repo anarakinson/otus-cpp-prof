@@ -113,8 +113,7 @@ private:
             queue->push(std::make_pair(m_lines, get_current_filename()));
         }
         m_lines.clear();
-        iLogger::notify_one();
-        // std::cout << "NOTIFY " << m_queues.size() << std::endl;
+        iLogger::notify_all();
 
     }
 

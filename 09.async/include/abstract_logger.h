@@ -29,7 +29,7 @@ public:
 
             // loggers logic 
             print_lines();
-            notify_one();
+            // notify_one();
 
         }
     }
@@ -49,6 +49,10 @@ public:
 
     static void notify_one() {
         m_cv.notify_one();
+    }
+
+    static void notify_all() {
+        m_cv.notify_all();
     }
 
 protected:
