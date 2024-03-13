@@ -5,7 +5,7 @@ set(PATCH_VERSION "1" CACHE INTERNAL "Bulk")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 ### start project
-project(bulk VERSION ${PROJECT_VERSION})
+project(bulk_server VERSION ${PROJECT_VERSION})
 
 
 ### find boost
