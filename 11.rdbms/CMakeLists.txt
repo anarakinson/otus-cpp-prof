@@ -18,6 +18,7 @@ find_package(Threads)
 add_executable(
     join_server
     src/server.cpp 
+    src/database.cpp 
 )
 add_executable(
     client

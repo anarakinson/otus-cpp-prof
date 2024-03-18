@@ -2,9 +2,9 @@
 #pragma once
 
 #include <table.h>
+#include <database.h>
 
 #include <boost/asio.hpp>
-// #include <sqlite3.h>
 
 #include <iostream>
 #include <vector>

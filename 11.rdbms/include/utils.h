@@ -36,12 +36,8 @@ namespace Utils {
 
     }
 
-    inline std::string space(int len) {
-        std::string out{};
-        for (int i = 0; i < len; ++i) {
-            out += " ";
-        }
-        return out;
+    inline std::string space(size_t len, char ch = ' ') {
+        return std::string( len, ch );
     }
 
 } // Utils
