@@ -57,7 +57,6 @@ private:
             
         asio::async_write(
             m_socket, 
-            // asio::buffer("BACK!", 5),
             asio::buffer(m_data, length),
             [this, self] (boost::system::error_code err, size_t /*length*/) {
                 if (!err) {
