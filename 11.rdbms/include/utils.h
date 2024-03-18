@@ -11,6 +11,7 @@
 
 namespace Utils {
 
+    // lower string
     inline std::string to_lower(std::string &str) {
         std::locale loc;
         for (size_t i = 0; i < str.size(); ++i){
@@ -19,7 +20,7 @@ namespace Utils {
         return str;
     }
 
-
+    // split string to vector of words
     inline std::vector<std::string> split(std::string &string, std::string delimiter = " ") {
 
         std::string word = "";
@@ -36,6 +37,7 @@ namespace Utils {
 
     }
 
+    // make space filled with specific char (default - ' ')
     inline std::string space(size_t len, char ch = ' ') {
         return std::string( len, ch );
     }

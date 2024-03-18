@@ -145,25 +145,28 @@ std::string DataBase::query_symm_diff(const std::string &first_table, const std:
 }
 
 
+// make beautiful displaying of tables difference or intersection
 std::string DataBase::print_table_comparison(
     std::set<int> idx, 
     const std::string &first_table, 
     const std::string &second_table
-    ) {
+) {
 
-    // get size fot table header
+    // get size for table header
     size_t space_size = 0;
     if (m_data[first_table].max_len() > first_table.size()){
         space_size = m_data[first_table].max_len() - first_table.size();
     }
 
-    // make output table 
+    // - make output table - // 
+    // make header
     std::string out{
         "\n"
         "id | " + first_table + Utils::space(space_size) + " | " + second_table + " \n"
         "---+-" + Utils::space(m_data[first_table].max_len(), '-') + "-+-" + Utils::space(m_data[second_table].max_len(), '-') + "-\n"
     };
 
+    // make body of table
     for (auto id : idx) {    
         auto A_name = m_data[first_table][id];  
         A_name += Utils::space(m_data[first_table].max_len() - A_name.size());
