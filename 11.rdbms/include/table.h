@@ -3,6 +3,7 @@
 
 #include <utils.h>
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <map>
@@ -19,13 +20,23 @@ struct Node {
 class Table {
 public:
 
-    void push(int id, std::string name) {
+    void push(int id, std::string &name) {
+        m_max_len = name.size();
         m_data.push_back( Node{id, name} );
         m_keys.insert(id);
     }
 
     void operator () (int id, std::string name) {
         push(id, name);
+    }
+
+    std::string operator [] (int id) {
+        if (!m_keys.count(id)) { return ""; }
+
+        for (auto &node : m_data) {
+            if (node.id == id) { return node.name; }
+        }
+        return "";
     }
 
     std::vector<Node> data() { return m_data; }
@@ -35,9 +46,12 @@ public:
         m_keys.clear();
     }
 
+    int max_len() { return m_max_len; }
+
 private:
     std::vector<Node> m_data;
     std::set<int> m_keys;
+    int m_max_len = 0;
 
 };
 
@@ -83,7 +97,7 @@ public:
             return query_intersection();
         } 
         
-        else if (first_word == "symmetryc_difference" && words.size() == 1) {
+        else if (first_word == "symmetric_difference" && words.size() == 1) {
             return query_symm_diff();
         } 
         
@@ -103,14 +117,15 @@ private:
     std::string query_show(std::string &table_name) {
         std::string out;
         if (!m_data.count(table_name)) {
-            return "Table is not exists!";
+            return "Table does not exist!";
         }
 
         out = "\n";
         out += "id | name \n";
         out += "---+----------\n";
         for (auto &node : m_data[table_name].data()) {
-            out += " " + std::to_string(node.id) + " | " + node.name + "\n";
+            out += node.id > 10 ? "" : " ";
+            out += std::to_string(node.id) + " | " + node.name + "\n";
         }
 
         return out;
@@ -120,7 +135,7 @@ private:
     std::string query_insert(std::vector<std::string> &words) {
         auto table_name = words[1];
         if (!m_data.count(table_name)) {
-            return "Table is not exists!";
+            return "Table does not exist!";
         }
         auto &table = m_data[table_name];
         int id = std::stoi(words[2]);
@@ -137,18 +152,68 @@ private:
 
 
     std::string query_truncate(std::string &table_name) {
+        if (!m_data.count(table_name)) {
+            return "Table does not exist!";
+        }
         m_data[table_name].clear();
         return "OK!";
     }
 
 
     std::string query_intersection() {
-        return "OK!";
+
+        auto A_keys = m_data["A"].keys(); 
+        auto B_keys = m_data["B"].keys();
+
+        auto intersection = std::set<int>{};
+        // get the intersection
+        std::set_intersection(A_keys.begin(), A_keys.end(), B_keys.begin(), B_keys.end(), std::inserter(intersection, intersection.begin()));
+
+        std::string out{
+            "id |   A   |   B    \n"
+            "---+-------+--------\n"
+        };
+        for (auto id : intersection) {
+            out += " " + std::to_string(id) + " | " + m_data["A"][id] + " | " + m_data["B"][id] + "\n";
+        }
+
+        return out;
     }
 
 
     std::string query_symm_diff() {
-        return "OK!";
+
+        auto A_keys = m_data["A"].keys(); 
+        auto B_keys = m_data["B"].keys();
+
+        auto difference = std::set<int>{};
+        // get the difference one from another and vice versa
+        std::set_difference(
+            A_keys.begin(), A_keys.end(), 
+            B_keys.begin(), B_keys.end(), 
+            std::inserter(difference, difference.begin())
+        );
+        std::set_difference(
+            B_keys.begin(), B_keys.end(), 
+            A_keys.begin(), A_keys.end(), 
+            std::inserter(difference, difference.begin())
+        );
+
+        std::cout << difference.size() << "\n";
+        for (auto x : difference) {
+            std::cout << x << " ";
+        }
+        std::cout << "\n";
+
+        std::string out{
+            "id |   A   |   B    \n"
+            "---+-------+--------\n"
+        };
+        for (auto id : difference) {
+            out += " " + std::to_string(id) + " | " + m_data["A"][id] + " | " + m_data["B"][id] + "\n";
+        }
+
+        return out;
     }
 
 };

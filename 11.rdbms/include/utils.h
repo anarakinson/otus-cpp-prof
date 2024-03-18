@@ -20,7 +20,7 @@ namespace Utils {
     }
 
 
-    std::vector<std::string> split(std::string &string, std::string delimiter = " ") {
+    inline std::vector<std::string> split(std::string &string, std::string delimiter = " ") {
 
         std::string word = "";
         std::vector<std::string> out;
@@ -36,5 +36,12 @@ namespace Utils {
 
     }
 
+    inline std::string space(int len) {
+        std::string out{};
+        for (int i = 0; i < len; ++i) {
+            out += " ";
+        }
+        return out;
+    }
 
 } // Utils

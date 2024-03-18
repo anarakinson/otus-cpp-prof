@@ -81,6 +81,7 @@ private:
     enum { max_length = 2048 };
     char m_data[max_length];
 
+    // DataBase m_db;
     DataBase m_db = create_dummy_database();
 
 
