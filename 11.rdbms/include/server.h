@@ -10,7 +10,8 @@
 #include <vector>
 #include <memory>
 
-#define CREATE_DUMMY_DATABASE true
+// create or not database for testing?
+#define CREATE_DUMMY_DATABASE /*false*/ true 
 
 namespace asio = boost::asio;
 using boost::asio::ip::tcp;
