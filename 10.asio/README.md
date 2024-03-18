@@ -28,7 +28,7 @@ bulk_server <port> <bulk_size>
 ```
 2. клиент
 ```shell
-client
+client <ip address> <port>
 ```
 
 ---
