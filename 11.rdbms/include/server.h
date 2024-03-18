@@ -10,7 +10,7 @@
 #include <vector>
 #include <memory>
 
-
+#define CREATE_DUMMY_DATABASE true
 
 namespace asio = boost::asio;
 using boost::asio::ip::tcp;
@@ -80,9 +80,11 @@ private:
     enum { max_length = 2048 };
     char m_data[max_length];
 
-    // DataBase m_db;
+#if CREATE_DUMMY_DATABASE
     DataBase m_db = create_dummy_database();
-
+#else
+    DataBase m_db;
+#endif
 
 };
 
