@@ -59,7 +59,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./11.rdbms/build/join_server-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ./11.join_server/build/join_server-0.0.${{ github.run_number }}-Linux.deb
           asset_name: join_server-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
 
