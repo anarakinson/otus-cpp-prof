@@ -7,7 +7,7 @@ on:
       - main
       - feature/github_actions
     paths:
-      - '11.rdbms/**'
+      - '11.join_server/**'
   workflow_dispatch:
 
 
@@ -23,12 +23,12 @@ jobs:
 
       ### Install requirements ###
       - name: Install requirements
-        working-directory: ./11.rdbms/ 
+        working-directory: ./11.join_server/ 
         run: |
              sudo apt-get update && sudo apt-get install cmake libboost-all-dev -y 
       ### Build ###
-      - name: Build 11.rdbms
-        working-directory: ./11.rdbms/
+      - name: Build 11.join_server
+        working-directory: ./11.join_server/
         run: |
              cmake -B build -DPATCH_VERSION=${{ github.run_number }}
              cmake --build build
