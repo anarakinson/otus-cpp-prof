@@ -1,0 +1,65 @@
+name: 'C++ outer join'
+
+
+on:
+  push:
+    branches:
+      - main
+      - feature/github_actions
+    paths:
+      - '11.rdbms/**'
+  workflow_dispatch:
+
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      ### Install requirements ###
+      - name: Install requirements
+        working-directory: ./11.rdbms/ 
+        run: |
+             sudo apt-get update && sudo apt-get install cmake libboost-all-dev -y 
+      ### Build ###
+      - name: Build 11.rdbms
+        working-directory: ./11.rdbms/
+        run: |
+             cmake -B build -DPATCH_VERSION=${{ github.run_number }}
+             cmake --build build
+             cmake --build build --target package
+             ls -la .
+             ls -la build
+             
+             
+      
+      ######################
+      ### Create release ###
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 10${{ github.run_number }}
+          release_name: Release - 11.join_server - ${{ github.run_number }}
+          draft: false
+          prerelease: false
+        
+      ### Upload release ###
+      - name: Upload "11.join_server" Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./11.rdbms/build/join_server-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: join_server-0.0.${{ github.run_number }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
+

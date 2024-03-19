@@ -18,12 +18,12 @@ std::string DataBase::operator () (std::string &query) {
     if (first_word == "help" && words.size() == 1) {
         return std::string(
             "\nCOMMANDS:\n\n"
-            "  INSERT table id name\n"
-            "  TRUNCATE table\n"
-            "  INTERSECTION\n"
-            "  SYMMETRIC_DIFFERENCE\n"
-            "  SHOW table\n"
-            "  EXIT\n"
+            "  INSERT table id name\n    - insert data into <table>"
+            "  TRUNCATE table\n          - clear all data from <table>" 
+            "  INTERSECTION\n            - show intersecion"
+            "  SYMMETRIC_DIFFERENCE\n    - show difference" 
+            "  SHOW table\n              - show data from <table>"
+            "  EXIT\n                    - stop client and exit "
         );
     } 
     
@@ -65,7 +65,7 @@ std::string DataBase::operator () (std::string &query) {
 std::string DataBase::query_show(std::string &table_name) {
     std::string out;
     if (!m_data.count(table_name)) {
-        return "Table does not exist!";
+        return "ERROR: Table does not exist!";
     }
 
     out = "\n";
@@ -75,6 +75,7 @@ std::string DataBase::query_show(std::string &table_name) {
         out += node.id > 10 ? "" : " ";
         out += std::to_string(node.id) + " | " + node.name + "\n";
     }
+    out += "OK!\n";
 
     return out;
 }
@@ -83,28 +84,28 @@ std::string DataBase::query_show(std::string &table_name) {
 std::string DataBase::query_insert(std::vector<std::string> &words) {
     auto table_name = words[1];
     if (!m_data.count(table_name)) {
-        return "Table does not exist!";
+        return "ERROR: Table does not exist!";
     }
     auto &table = m_data[table_name];
     int id = std::stoi(words[2]);
     std::string name = words[3];
 
     if (table.keys().count(id)) {
-        return "Id must be unique!";
+        return "ERROR: Id must be unique!";
     }
 
     table.push(id, name);
 
-    return "OK!";
+    return "OK!\n";
 }
 
 
 std::string DataBase::query_truncate(std::string &table_name) {
     if (!m_data.count(table_name)) {
-        return "Table does not exist!";
+        return "ERROR: Table does not exist!";
     }
     m_data[table_name].clear();
-    return "OK!";
+    return "OK!\n";
 }
 
 
@@ -115,9 +116,14 @@ std::string DataBase::query_intersection(const std::string &first_table, const s
 
     auto intersection = std::set<int>{};
     // get the intersection
-    std::set_intersection(A_keys.begin(), A_keys.end(), B_keys.begin(), B_keys.end(), std::inserter(intersection, intersection.begin()));
+    std::set_intersection(
+        A_keys.begin(), A_keys.end(), 
+        B_keys.begin(), B_keys.end(), 
+        std::inserter(intersection, intersection.begin())
+    );
 
     std::string out = print_table_comparison(intersection);
+    out += "OK!\n";
     return out;
 }
 
@@ -141,11 +147,13 @@ std::string DataBase::query_symm_diff(const std::string &first_table, const std:
     );
 
     std::string out = print_table_comparison(difference);
+    out += "OK!\n";
     return out;
 }
 
 
 // make beautiful displaying of tables difference or intersection
+// a lot of code just for making lines the same length
 std::string DataBase::print_table_comparison(
     std::set<int> idx, 
     const std::string &first_table, 
