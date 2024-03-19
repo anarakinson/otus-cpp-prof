@@ -5,7 +5,7 @@ set(PATCH_VERSION "2" CACHE INTERNAL "Bulk")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 ### start project
-project(rdbms VERSION ${PROJECT_VERSION})
+project(join_server VERSION ${PROJECT_VERSION})
 
 
 ### find boost and sqlite
