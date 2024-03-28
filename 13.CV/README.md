@@ -21,4 +21,3 @@ Cmake может собрать программу как под windows, так
 
 У программы установлены данные по умолчанию (`test_data/test.csv models/saved_model`)
 
-
