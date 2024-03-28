@@ -1,6 +1,6 @@
 #pragma once
 
-#include <image_manager.h>
+#include <image_manager.hpp>
 
 #include <iostream>
 #include <memory>

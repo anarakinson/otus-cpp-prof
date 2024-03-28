@@ -1,8 +1,8 @@
 #pragma once 
 
 
-#include <document_manager.h>
-#include <image_manager.h>
+#include <document_manager.hpp>
+#include <image_manager.hpp>
 
 #include <iostream>
 #include <memory>
