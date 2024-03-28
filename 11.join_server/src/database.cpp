@@ -1,5 +1,5 @@
 
-#include <database.h>
+#include <database.hpp>
 
 
 
@@ -18,12 +18,12 @@ std::string DataBase::operator () (std::string &query) {
     if (first_word == "help" && words.size() == 1) {
         return std::string(
             "\nCOMMANDS:\n\n"
-            "  INSERT table id name\n    - insert data into <table>"
-            "  TRUNCATE table\n          - clear all data from <table>" 
-            "  INTERSECTION\n            - show intersecion"
-            "  SYMMETRIC_DIFFERENCE\n    - show difference" 
-            "  SHOW table\n              - show data from <table>"
-            "  EXIT\n                    - stop client and exit "
+            "  INSERT table id name    - insert data into <table>\n"
+            "  TRUNCATE table          - clear all data from <table>\n" 
+            "  INTERSECTION            - show intersecion\n"
+            "  SYMMETRIC_DIFFERENCE    - show difference\n" 
+            "  SHOW table              - show data from <table>\n"
+            "  EXIT                    - stop client and exit \n"
         );
     } 
     

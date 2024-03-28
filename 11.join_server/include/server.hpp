@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include <table.h>
-#include <database.h>
+#include <table.hpp>
+#include <database.hpp>
 
 #include <boost/asio.hpp>
 

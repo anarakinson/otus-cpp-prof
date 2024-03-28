@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include <table.h>
-#include <utils.h>
+#include <table.hpp>
+#include <utils.hpp>
 
 #include <algorithm>
 #include <iostream>
