@@ -9,13 +9,21 @@ set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 project(fashion_mnist VERSION ${PROJECT_VERSION})
 
 
+### find g-test
+find_package(GTest CONFIG REQUIRED)
+
+
 ######################
 add_executable(
     fashion_mnist 
     src/main.cpp 
     src/tf_classifier.cpp
 )
-
+add_executable(
+    tests 
+    tests/test_tf.cpp
+    src/tf_classifier.cpp
+)
 
 ######################
 if(MSVC)
@@ -24,14 +32,27 @@ if(MSVC)
     # set(TF_PATH "${CMAKE_SOURCE_DIR}/../../tensorflow/gpu")
     message("${TF_PATH}")
     
+    ### headers
     target_include_directories(
         fashion_mnist 
         PRIVATE
         "${TF_PATH}/include/"
     )
+    target_include_directories(
+        tests 
+        PRIVATE
+        "${TF_PATH}/include/"
+    )
+
+    ### link library
     target_link_libraries(
-        fashion_mnist 
+        fashion_mnist PRIVATE 
         "${TF_PATH}/lib/tensorflow.lib"
+    )
+    target_link_libraries(
+        tests PRIVATE 
+        "${TF_PATH}/lib/tensorflow.lib"
+        GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main
     )
 
     add_custom_target(
@@ -41,8 +62,13 @@ if(MSVC)
     add_dependencies(fashion_mnist copy_dll)
 else()
     target_link_libraries(
-        fashion_mnist
+        fashion_mnist PRIVATE
         tensorflow
+    )
+    target_link_libraries(
+        tests PRIVATE 
+        tensorflow
+        GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main
     )
 endif()
 
@@ -52,8 +78,14 @@ include_directories(
     "include"
 )
 
+
 set_target_properties(
     fashion_mnist PROPERTIES 
+    SXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON
+)
+set_target_properties(
+    tests PROPERTIES 
     SXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
@@ -64,8 +96,17 @@ if (MSVC)
     target_compile_options(fashion_mnist PRIVATE
         # /W4
     )
+    target_compile_options(tests PRIVATE
+        # /W4
+    )
 else ()
     target_compile_options(fashion_mnist PRIVATE
+        # -Wall 
+        -Wextra 
+        -pedantic 
+        -Werror
+    )
+    target_compile_options(tests PRIVATE
         # -Wall 
         -Wextra 
         -pedantic 
@@ -90,3 +131,6 @@ set(CPACK_PACKAGE_CONTACT example@example.com)
 
 include(CPack)
 
+
+enable_testing()
+add_test(AllTestsInMain tests)

@@ -9,14 +9,14 @@
 
 namespace Utils {
 
-    inline bool read_csv_line(std::istream& stream, mnist::Classifier::features_t& features) {
+    inline bool read_csv_line(std::istream& stream, mnist::Classifier::features_t& features, char sep = ',') {
         std::string line;
         std::getline(stream, line);
 
         features.clear();
         std::istringstream linestream{line};
         std::string value;
-        while (std::getline(linestream, value, ',')) {
+        while (std::getline(linestream, value, sep)) {
             features.push_back(std::stof(value));
         }
         return stream.good();
