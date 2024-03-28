@@ -6,7 +6,7 @@ set(PATCH_VERSION "1" CACHE INTERNAL "Bulk")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 ### start project
-project(13.CV VERSION ${PROJECT_VERSION})
+project(fashion_mnist VERSION ${PROJECT_VERSION})
 
 
 ######################
