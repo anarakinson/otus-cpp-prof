@@ -1,9 +1,15 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(13.CV)
+
+### set version
+set(PATCH_VERSION "1" CACHE INTERNAL "Bulk")
+set(PROJECT_VERSION 0.0.${PATCH_VERSION})
+
+### start project
+project(13.CV VERSION ${PROJECT_VERSION})
 
 
-
+######################
 add_executable(
     fashion_mnist 
     src/main.cpp 
