@@ -1,6 +1,6 @@
 #pragma once 
 
-#include <hasher.h>
+#include <hasher.hpp>
 
 #include <iostream>
 #include <fstream>

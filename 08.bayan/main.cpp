@@ -1,8 +1,8 @@
 
-#include <argparse.h>
-#include <comparator.h>
-#include <paths.h>
-#include <utils.h>
+#include <argparse.hpp>
+#include <comparator.hpp>
+#include <paths.hpp>
+#include <utils.hpp>
 
 #include <boost/program_options.hpp>
 #include <boost/tokenizer.hpp>

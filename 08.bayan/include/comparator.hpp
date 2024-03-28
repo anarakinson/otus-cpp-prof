@@ -1,7 +1,7 @@
 #pragma once 
 
-#include <read_block.h>
-#include <utils.h>
+#include <read_block.hpp>
+#include <utils.hpp>
 
 #include <boost/program_options.hpp>
 #include <boost/tokenizer.hpp>
