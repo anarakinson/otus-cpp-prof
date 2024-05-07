@@ -38,6 +38,7 @@ private:
 
     }
 
+    // deny copying
     ThreadManager(const ThreadManager&) = delete;
     ThreadManager(ThreadManager&&) = delete;
 
@@ -49,7 +50,8 @@ private:
     }
 
 public:
-    
+
+    // singletone pattern
     static ThreadManager& get_instance() {
         static ThreadManager instance;
         return instance;

@@ -52,8 +52,6 @@ public:
 
 private:
     std::unique_ptr<Bulk> m_bulk;
-
-    // static inline ThreadManager singletone{};
     
 };
 
