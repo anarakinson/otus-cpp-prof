@@ -23,8 +23,11 @@ class async::BulkHandler : public async::iHandler {
 public:
     BulkHandler(size_t N) {
     
+        // get thread manager
+        ThreadManager &singletone = ThreadManager::get_instance();
+
         // Create bulk
-        m_bulk = new Bulk{N};
+        m_bulk = std::unique_ptr<Bulk>(new Bulk{N});
 
         // attach loggers and queues to bulk for notifying them
         for (auto queue : singletone.queues()) {
@@ -36,7 +39,7 @@ public:
         
     } 
 
-    ~BulkHandler() { delete m_bulk; }
+    ~BulkHandler() {}
 
     void update(char ch) {
         m_bulk->update_line(ch);
@@ -48,10 +51,10 @@ public:
 
 
 private:
-    Bulk *m_bulk;
+    std::unique_ptr<Bulk> m_bulk;
 
-    static inline ThreadManager singletone{};
-
+    // static inline ThreadManager singletone{};
+    
 };
 
 

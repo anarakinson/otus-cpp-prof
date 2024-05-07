@@ -1,9 +1,9 @@
 #pragma once 
 
 #include <utils.h>
-#include <abstract_logger.h>
+#include <ilogger.h>
 #include <loggers.h>
-#include <lockfree_queue.h>
+#include <multithread_queue.h>
 
 #include <iostream>
 #include <filesystem>
@@ -89,7 +89,7 @@ public:
     }
 
     // attaching loggers to bulk exemplar
-    void attach_queue(LockFreeQueue<Utils::pair_Lines_and_Name> *queue) {
+    void attach_queue(MultiThreadQueue<Utils::pair_Lines_and_Name> *queue) {
         m_queues.push_back(queue);
     }
 
@@ -103,7 +103,7 @@ private:
     std::vector<std::string> m_lines;
 
     std::vector<iLogger*> m_loggers;
-    std::vector<LockFreeQueue<Utils::pair_Lines_and_Name>*> m_queues;
+    std::vector<MultiThreadQueue<Utils::pair_Lines_and_Name>*> m_queues;
 
 
     // notification for loggers
@@ -113,7 +113,10 @@ private:
             queue->push(std::make_pair(m_lines, get_current_filename()));
         }
         m_lines.clear();
-        iLogger::notify_all();
+        // notify loggers
+        for (auto logger : m_loggers) {
+            logger->notify_one();
+        }
 
     }
 

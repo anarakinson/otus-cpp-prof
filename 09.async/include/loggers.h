@@ -1,8 +1,8 @@
 #pragma once 
 
-#include <abstract_logger.h>
+#include <ilogger.h>
 // #include <bulk.h>
-// #include <lockfree_queue.h>
+// #include <multithread_queue.h>
 
 #include <iostream>
 #include <fstream>

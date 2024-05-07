@@ -6,7 +6,7 @@
 
 
 template<typename T>
-class LockFreeQueue {
+class MultiThreadQueue {
 public:
     void push( const T& value ) {
         std::lock_guard<std::mutex> lock(m_mutex);

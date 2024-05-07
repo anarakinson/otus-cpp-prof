@@ -2,9 +2,9 @@
 
 
 #include <utils.h>
-#include <abstract_logger.h>
+#include <ilogger.h>
 #include <loggers.h>
-#include <lockfree_queue.h>
+#include <multithread_queue.h>
 
 #include <iostream>
 #include <vector>
@@ -12,7 +12,7 @@
 
 
 class ThreadManager {
-public:
+private:
     ThreadManager() {
 
         m_loggers.push_back(&c_logger);
@@ -38,6 +38,9 @@ public:
 
     }
 
+    ThreadManager(const ThreadManager&) = delete;
+    ThreadManager(ThreadManager&&) = delete;
+
     ~ThreadManager() {
         // start threads
         for (auto &thread : m_threads) {
@@ -45,22 +48,27 @@ public:
         }
     }
 
+public:
+    
+    static ThreadManager& get_instance() {
+        static ThreadManager instance;
+        return instance;
+    }
  
     std::vector<iLogger*> loggers() { return m_loggers; }
-    std::vector<LockFreeQueue<Utils::pair_Lines_and_Name>*> queues() { return m_queues; }
-
+    std::vector<MultiThreadQueue<Utils::pair_Lines_and_Name>*> queues() { return m_queues; }
 
 private:
 
     std::vector<std::thread> m_threads; 
     std::vector<iLogger*> m_loggers; 
-    std::vector<LockFreeQueue<Utils::pair_Lines_and_Name>*> m_queues;
+    std::vector<MultiThreadQueue<Utils::pair_Lines_and_Name>*> m_queues;
 
     ConsoleLogger c_logger{};
     FileLogger f_logger1{};
     FileLogger f_logger2{};
 
-    LockFreeQueue<Utils::pair_Lines_and_Name> file_queue{};
-    LockFreeQueue<Utils::pair_Lines_and_Name> console_queue{};
+    MultiThreadQueue<Utils::pair_Lines_and_Name> file_queue{};
+    MultiThreadQueue<Utils::pair_Lines_and_Name> console_queue{};
 
 };

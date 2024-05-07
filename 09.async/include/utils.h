@@ -20,7 +20,7 @@ namespace Utils {
 
         std::string USAGE = "USAGE:\n"
         "bulk N\n"
-        "Where N - size of block, integer" 
+        "Where N - size of block, integer\n" 
         "N must be between 0 and 10\n";
 
         if (argc > 2 || argc < 2) {
