@@ -35,7 +35,7 @@ void print_map(const char *name, const T &map) {
 int main() {
 
     std::map<int, int> map{};
-    // std::map<int, int, std::less<int>, Mallocator<std::pair<const int, int>>> map{};
+    // std::map<int, int, std::less<int>, Mallocator<std::pair<const int, int>>> map_a{};
     std::map<int, int, std::less<int>, CustomAllocator<std::pair<const int, int>>> map_a{};
 
 
